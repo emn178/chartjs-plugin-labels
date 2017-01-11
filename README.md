@@ -10,9 +10,13 @@ PieceLabel plugin for Chart.js.
 
 ## Installation
 You can also install Chart.PieceLabel.js by using Bower.
-```
-bower install Chart.PieceLabel.js
-```
+
+    bower install Chart.PieceLabel.js
+
+
+Or node.js, you can use this command to install:
+
+    npm install chart.piecelabel.js
 
 ## Usage
 JavaScript

@@ -1,5 +1,5 @@
 {
-  "name": "Chart.PieceLabel.js",
+  "name": "chart.piecelabel.js",
   "version": "0.1.0",
   "description": "PieceLabel plugin for Chart.js",
   "main": "src/Chart.PieceLabel.js",
