@@ -1,0 +1,23 @@
+{
+  "name": "Chart.PieceLabel.js",
+  "version": "0.1.0",
+  "description": "PieceLabel plugin for Chart.js",
+  "main": "src/Chart.PieceLabel.js",
+  "dependencies": {
+    "chart.js": "^2.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/emn178/Chart.PieceLabel.js.git"
+  },
+  "keywords": [
+    "chart",
+    "label"
+  ],
+  "license": "MIT",
+  "author": "Chen, Yi-Cyuan <emn178@gmail.com>",
+  "homepage": "https://github.com/emn178/Chart.PieceLabel.js",
+  "bugs": {
+    "url": "https://github.com/emn178/Chart.PieceLabel.js/issues"
+  }
+}

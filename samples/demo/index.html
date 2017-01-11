@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chart PieceLabel</title>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
+  <script type="text/javascript" src="../../src/Chart.PieceLabel.js"></script>
+  <script>
+    if (location.protocol != 'file:') {
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-44208259-3', 'auto');
+      ga('send', 'pageview');
+    }
+  </script>
+</head>
+<body>
+  <div id="header">
+    <h1>Chart PieceLabel</h1>
+    <a href="https://github.com/emn178/Chart.PieceLabel.js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github-camo.global.ssl.fastly.net/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
+  </div>
+  <div id="body">
+    <div id="description">
+      <p>
+        Show label, value or percentage.
+      </p>
+    </div>
+    <div class="charts">
+      <div class="row">
+        <div class="chart-wrapper">
+          <canvas id="pie-canvas1"></canvas>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="doughnut-canvas1"></canvas>
+        </div>
+        <div class="code">
+          <pre class="brush: js">
+            {
+              legend: {
+                display: false
+              },
+              pieceLabel: {
+                mode: 'label'
+              }
+            }
+          </pre>
+        </div>
+      </div>
+      <div class="row">
+        <div class="chart-wrapper">
+          <canvas id="pie-canvas2"></canvas>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="doughnut-canvas2"></canvas>
+        </div>
+        <div class="code">
+          <pre class="brush: js">
+            {
+              pieceLabel: {
+                mode: 'percentage',
+                precision: 2
+              }
+            }
+          </pre>
+        </div>
+      </div>
+      <div class="row">
+        <div class="chart-wrapper">
+          <canvas id="pie-canvas3"></canvas>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="doughnut-canvas3"></canvas>
+        </div>
+        <div class="code">
+          <pre class="brush: js">
+            {
+              pieceLabel: {
+                mode: 'value',
+                fontSize: 14,
+                fontStyle: 'bold',
+                fontColor: '#000',
+                fontFamily: '"Lucida Console", Monaco, monospace'
+              }
+            }
+          </pre>
+        </div>
+      </div>
+
+      <!-- <div class="row">
+        <div class="chart-wrapper">
+          <canvas id="doughnut-canvas1"></canvas>
+        </div>
+        <div class="code">
+          <pre class="brush: js">
+            {
+              pieceLabel: {
+                mode: 'label'
+              }
+            }
+          </pre>
+        </div>
+      </div>
+      <div class="row">
+        <div class="chart-wrapper">
+          <canvas id="doughnut-canvas2"></canvas>
+        </div>
+        <div class="code">
+          <pre class="brush: js">
+            {
+              pieceLabel: {
+                mode: 'percentage',
+                precision: 2
+              }
+            }
+          </pre>
+        </div>
+      </div>
+      <div class="row">
+        <div class="chart-wrapper">
+          <canvas id="doughnut-canvas3"></canvas>
+        </div>
+        <div class="code">
+          <pre class="brush: js">
+            {
+              pieceLabel: {
+                mode: 'value',
+                fontSize: 14,
+                fontStyle: 'bold',
+                fontColor: '#000',
+                fontFamily: '"Lucida Console", Monaco, monospace'
+              }
+            }
+          </pre>
+        </div>
+      </div> -->
+    </div>
+  </div>
+  <div id="footer">
+    © 2016 Chart.PieceLabel.js Demo
+  </div>
+  <script>
+    function createChart(id, type, options) {
+      var data = {
+        labels: ['January', 'February', 'March'],
+        datasets: [
+          {
+            label: 'My First dataset',
+            data: [50445, 33655, 15900],
+            backgroundColor: [
+              '#FF6384',
+              '#36A2EB',
+              '#FFCE56'
+            ]
+          }
+        ]
+      };
+
+      new Chart(document.getElementById(id), {
+        type: type,
+        data: data,
+        options: options
+      });
+    }
+
+    ['pie', 'doughnut'].forEach(function (type) {
+      createChart(type + '-canvas1', type, {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+          display: false
+        },
+        pieceLabel: {
+          mode: 'label'
+        }
+      });
+      createChart(type + '-canvas2', type, {
+        responsive: true,
+        maintainAspectRatio: false,
+        pieceLabel: {
+          mode: 'percentage',
+          precision: 2
+        }
+      });
+      createChart(type + '-canvas3', type, {
+        responsive: true,
+        maintainAspectRatio: false,
+        pieceLabel: {
+          mode: 'value',
+          fontSize: 14,
+          fontStyle: 'bold',
+          fontColor: '#000',
+          fontFamily: '"Lucida Console", Monaco, monospace'
+        }
+      });
+    });
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shCore.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shThemeDefault.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shCore.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shBrushJScript.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shBrushXml.js"></script>
+  <script>
+    SyntaxHighlighter.all();
+  </script>
+</body>
+</html>
