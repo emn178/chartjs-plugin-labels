@@ -90,54 +90,27 @@
           </pre>
         </div>
       </div>
-
-      <!-- <div class="row">
-        <div class="chart-wrapper">
-          <canvas id="doughnut-canvas1"></canvas>
-        </div>
-        <div class="code">
-          <pre class="brush: js">
-            {
-              pieceLabel: {
-                mode: 'label'
-              }
-            }
-          </pre>
-        </div>
-      </div>
       <div class="row">
         <div class="chart-wrapper">
-          <canvas id="doughnut-canvas2"></canvas>
+          <canvas id="pie-canvas4"></canvas>
         </div>
-        <div class="code">
-          <pre class="brush: js">
-            {
-              pieceLabel: {
-                mode: 'percentage',
-                precision: 2
-              }
-            }
-          </pre>
-        </div>
-      </div>
-      <div class="row">
         <div class="chart-wrapper">
-          <canvas id="doughnut-canvas3"></canvas>
+          <canvas id="doughnut-canvas4"></canvas>
         </div>
         <div class="code">
           <pre class="brush: js">
             {
               pieceLabel: {
                 mode: 'value',
-                fontSize: 14,
-                fontStyle: 'bold',
-                fontColor: '#000',
-                fontFamily: '"Lucida Console", Monaco, monospace'
+                arcText: true,
+                format: function (value) {
+                  return '$' + value;
+                }
               }
             }
           </pre>
         </div>
-      </div> -->
+      </div>
     </div>
   </div>
   <div id="footer">
@@ -168,6 +141,7 @@
     }
 
     ['pie', 'doughnut'].forEach(function (type) {
+    // ['doughnut'].forEach(function (type) {
       createChart(type + '-canvas1', type, {
         responsive: true,
         maintainAspectRatio: false,
@@ -195,6 +169,17 @@
           fontStyle: 'bold',
           fontColor: '#000',
           fontFamily: '"Lucida Console", Monaco, monospace'
+        }
+      });
+      createChart(type + '-canvas4', type, {
+        responsive: true,
+        maintainAspectRatio: false,
+        pieceLabel: {
+          mode: 'value',
+          arcText: true,
+          format: function (value) {
+            return '$' + value;
+          }
         }
       });
     });

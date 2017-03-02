@@ -27,7 +27,7 @@ new Chart(ctx, {
   options: {
     pieceLabel: {
       // mode 'label', 'value' or 'percentage', default is 'percentage'
-      mode: 'vertical',
+      mode: 'value',
 
       // precision for percentage, default is 0
       precision: 0,
@@ -42,7 +42,15 @@ new Chart(ctx, {
       fontStyle: 'normal',
 
       // font family, default is defaultFontFamily
-      fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
+      fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+
+      // draw text in arc, default is false
+      arcText: true,
+
+      // format text, work when mode is 'value'
+      format: function (value) { 
+        return '$' + value;
+      }
     }
   }
 });
