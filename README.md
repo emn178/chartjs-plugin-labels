@@ -47,6 +47,9 @@ new Chart(ctx, {
       // draw text in arc, default is false
       arcText: true,
 
+      // draw text on the border, default is false
+      borderText: true,
+
       // format text, work when mode is 'value'
       format: function (value) { 
         return '$' + value;

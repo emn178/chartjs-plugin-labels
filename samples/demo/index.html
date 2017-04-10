@@ -111,10 +111,29 @@
           </pre>
         </div>
       </div>
+      <div class="row">
+        <div class="chart-wrapper">
+          <canvas id="pie-canvas5"></canvas>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="doughnut-canvas5"></canvas>
+        </div>
+        <div class="code">
+          <pre class="brush: js">
+            {
+              pieceLabel: {
+                mode: 'label',
+                arcText: true,
+                borderText: true
+              }
+            }
+          </pre>
+        </div>
+      </div>
     </div>
   </div>
   <div id="footer">
-    © 2016 Chart.PieceLabel.js Demo
+    © 2017 Chart.PieceLabel.js Demo
   </div>
   <script>
     function createChart(id, type, options) {
@@ -141,7 +160,6 @@
     }
 
     ['pie', 'doughnut'].forEach(function (type) {
-    // ['doughnut'].forEach(function (type) {
       createChart(type + '-canvas1', type, {
         responsive: true,
         maintainAspectRatio: false,
@@ -180,6 +198,15 @@
           format: function (value) {
             return '$' + value;
           }
+        }
+      });
+      createChart(type + '-canvas5', type, {
+        responsive: true,
+        maintainAspectRatio: false,
+        pieceLabel: {
+          mode: 'label',
+          arcText: true,
+          borderText: true
         }
       });
     });

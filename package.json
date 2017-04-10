@@ -1,6 +1,6 @@
 {
   "name": "chart.piecelabel.js",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "PieceLabel plugin for Chart.js",
   "main": "src/Chart.PieceLabel.js",
   "dependencies": {
