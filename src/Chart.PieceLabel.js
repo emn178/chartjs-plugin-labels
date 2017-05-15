@@ -71,7 +71,11 @@
               text = value.toString();
               break;
             case 'label':
-              text = chartInstance.config.data.labels[i];
+              var label = chartInstance.config.data.labels[i];
+              if (format) {
+                label = format(label);
+              }
+              text = label.toString();
               break;
             case 'percentage':
             default:
