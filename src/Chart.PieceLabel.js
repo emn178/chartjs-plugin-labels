@@ -125,20 +125,6 @@
               ctx.fillText(text, position.x, position.y - fontSize / 2);
             }
           }
-          // var inRange = element.inRange(left, top) && element.inRange(left, bottom) &&
-          //   element.inRange(right, top) && element.inRange(right, bottom);
-          //   // inRange = true;
-          // if (inRange) {
-          //   ctx.fillStyle = fontColor;
-          //   if (arcText) {
-          //     ctx.textBaseline = 'middle';
-          //     drawArcText(ctx, text, view.x, view.y, (innerRadius + view.outerRadius) / 2, view.startAngle, view.endAngle);
-          //   } else {
-          //     ctx.textBaseline = 'top';
-          //     ctx.textAlign = 'center';
-          //     ctx.fillText(text, position.x, position.y - fontSize / 2);
-          //   }
-          // }
           ctx.restore();
         }
       });
