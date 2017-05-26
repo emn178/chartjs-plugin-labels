@@ -1,5 +1,13 @@
 # Change Log
 
+## v0.4.0 / 2017-05-26
+### Added
+- option `position`, available value is 'default', 'border' and 'outside'. # 8
+
+### Changed
+- option `arcText` rename to `arc`.
+- option `borderText` remove and replace by `position` with value 'border'.
+
 ## v0.3.0 / 2017-04-10
 ### Added
 - borderText feature. #2

@@ -18,6 +18,9 @@ Or node.js, you can use this command to install:
 
     npm install chart.piecelabel.js
 
+## Notice
+v0.4.0 has breaking changes. Please see [CHANGELOG](https://github.com/emn178/Chart.PieceLabel.js/blob/master/CHANGELOG.md#v040--2017-05-26)
+
 ## Usage
 JavaScript
 ```JavaScript
@@ -44,11 +47,12 @@ new Chart(ctx, {
       // font family, default is defaultFontFamily
       fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
 
-      // draw text in arc, default is false
-      arcText: true,
+      // draw label in arc, default is false
+      arc: true,
 
-      // draw text on the border, default is false
-      borderText: true,
+      // position to draw label, available value is 'default', 'border' and 'outside'
+      // default is 'default'
+      position: 'default',
 
       // format text, work when mode is 'value'
       format: function (value) { 

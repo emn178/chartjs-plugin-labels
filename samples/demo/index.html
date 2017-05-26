@@ -102,7 +102,7 @@
             {
               pieceLabel: {
                 mode: 'value',
-                arcText: true,
+                arc: true,
                 format: function (value) {
                   return '$' + value;
                 }
@@ -123,8 +123,47 @@
             {
               pieceLabel: {
                 mode: 'label',
-                arcText: true,
-                borderText: true
+                arc: true,
+                position: 'border'
+              }
+            }
+          </pre>
+        </div>
+      </div>
+      <div class="row">
+        <div class="chart-wrapper">
+          <canvas id="pie-canvas6"></canvas>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="doughnut-canvas6"></canvas>
+        </div>
+        <div class="code">
+          <pre class="brush: js">
+            {
+              pieceLabel: {
+                mode: 'label',
+                fontColor: '#000',
+                position: 'outside'
+              }
+            }
+          </pre>
+        </div>
+      </div>
+      <div class="row">
+        <div class="chart-wrapper">
+          <canvas id="pie-canvas7"></canvas>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="doughnut-canvas7"></canvas>
+        </div>
+        <div class="code">
+          <pre class="brush: js">
+            {
+              pieceLabel: {
+                mode: 'label',
+                arc: true,
+                fontColor: '#000',
+                position: 'outside'
               }
             }
           </pre>
@@ -194,7 +233,7 @@
         maintainAspectRatio: false,
         pieceLabel: {
           mode: 'value',
-          arcText: true,
+          arc: true,
           format: function (value) {
             return '$' + value;
           }
@@ -205,8 +244,27 @@
         maintainAspectRatio: false,
         pieceLabel: {
           mode: 'label',
-          arcText: true,
-          borderText: true
+          arc: true,
+          position: 'border'
+        }
+      });
+      createChart(type + '-canvas6', type, {
+        responsive: true,
+        maintainAspectRatio: false,
+        pieceLabel: {
+          mode: 'label',
+          fontColor: '#000',
+          position: 'outside'
+        }
+      });
+      createChart(type + '-canvas7', type, {
+        responsive: true,
+        maintainAspectRatio: false,
+        pieceLabel: {
+          mode: 'label',
+          arc: true,
+          fontColor: '#000',
+          position: 'outside'
         }
       });
     });
