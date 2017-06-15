@@ -1,5 +1,12 @@
 # Change Log
 
+## v0.5.0 / 2017-06-15
+### Fixed
+- bug #12
+
+### Changed
+- drop support for chart.js below v2.1.5
+
 ## v0.4.0 / 2017-05-26
 ### Added
 - option `position`, available value is 'default', 'border' and 'outside'. # 8

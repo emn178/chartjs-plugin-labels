@@ -1,7 +1,7 @@
 /**
  * [Chart.PieceLabel.js]{@link https://github.com/emn178/Chart.PieceLabel.js}
  *
- * @version 0.4.0
+ * @version 0.5.0
  * @author Chen, Yi-Cyuan [emn178@gmail.com]
  * @copyright Chen, Yi-Cyuan 2017
  * @license MIT
@@ -19,15 +19,12 @@
     }
   };
 
-  PieceLabel.prototype.afterDraw = function (chartInstance) {
+  PieceLabel.prototype.afterDatasetsDraw = function (chartInstance) {
     if (!this.parseOptions(chartInstance)) {
       return;
     }
     this.labelBounds = [];
     chartInstance.config.data.datasets.forEach(this.drawDataset);
-    if (this.hasTooltip) {
-      chartInstance.tooltip.draw();
-    }
   };
 
   PieceLabel.prototype.drawDataset = function (dataset) {
@@ -38,10 +35,6 @@
     for (var i = 0; i < meta.data.length; i++) {
       var element = meta.data[i],
         view = element._view;
-
-      if (this.hasTooltip) {
-        element.draw();
-      }
 
       var text;
       switch (this.mode) {
@@ -216,8 +209,8 @@
     beforeDatasetsUpdate: function (chartInstance) {
       chartInstance.pieceLabel.beforeDatasetsUpdate(chartInstance);
     },
-    afterDraw: function (chartInstance) {
-      chartInstance.pieceLabel.afterDraw(chartInstance);
+    afterDatasetsDraw: function (chartInstance) {
+      chartInstance.pieceLabel.afterDatasetsDraw(chartInstance);
     }
   });
 })();
