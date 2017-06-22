@@ -59,7 +59,11 @@
             // on chart due to very long number after decimal point.
             percentage = parseFloat(percentage.toFixed(this.precision));
           }
-          text = percentage + '%';
+          if(percentage <= 0 && !this.showZero){
+            text = ''
+          } else {
+            text = percentage + '%';
+          }
           break;
       }
       ctx.save();
@@ -138,6 +142,7 @@
       this.fontStyle = pieceLabel.fontStyle || this.options.defaultFontStyle;
       this.fontFamily = pieceLabel.fontFamily || this.options.defaultFontFamily;
       this.hasTooltip = chartInstance.tooltip._active && chartInstance.tooltip._active.length;
+      this.showZero = pieceLabel.showZero || false;
       return true;
     } else {
       return false;
