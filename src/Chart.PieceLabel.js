@@ -37,6 +37,11 @@
         view = element._view;
 
       var text;
+      //Skips label creation if value is zero and showZero is set
+      if(view.circumference === 0 && !this.showZero) {
+        text = '';
+        continue;
+      }
       switch (this.mode) {
         case 'value':
           var value = dataset.data[i];
@@ -59,11 +64,7 @@
             // on chart due to very long number after decimal point.
             percentage = parseFloat(percentage.toFixed(this.precision));
           }
-          if(percentage <= 0 && !this.showZero){
-            text = ''
-          } else {
             text = percentage + '%';
-          }
           break;
       }
       ctx.save();
