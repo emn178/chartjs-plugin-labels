@@ -36,7 +36,8 @@ new Chart(ctx, {
       precision: 0,
       
       //identifies whether or not labels of value 0 are displayed, default is false
-      showZero: true,    
+      showZero: true,
+
       // font size, default is defaultFontSize
       fontSize: 12,
 

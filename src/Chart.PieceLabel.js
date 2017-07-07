@@ -1,7 +1,7 @@
 /**
  * [Chart.PieceLabel.js]{@link https://github.com/emn178/Chart.PieceLabel.js}
  *
- * @version 0.5.0
+ * @version 0.6.0
  * @author Chen, Yi-Cyuan [emn178@gmail.com]
  * @copyright Chen, Yi-Cyuan 2017
  * @license MIT
@@ -34,12 +34,10 @@
     var totalPercentage = 0;
     for (var i = 0; i < meta.data.length; i++) {
       var element = meta.data[i],
-        view = element._view;
+        view = element._view, text;
 
-      var text;
       //Skips label creation if value is zero and showZero is set
-      if(view.circumference === 0 && !this.showZero) {
-        text = '';
+      if (view.circumference === 0 && !this.showZero) {
         continue;
       }
       switch (this.mode) {
@@ -64,7 +62,7 @@
             // on chart due to very long number after decimal point.
             percentage = parseFloat(percentage.toFixed(this.precision));
           }
-            text = percentage + '%';
+          text = percentage + '%';
           break;
       }
       ctx.save();
@@ -164,6 +162,19 @@
         var x = potins[j][0];
         var y = potins[j][1];
         if (x >= bound.left && x <= bound.right && y >= bound.top && y <= bound.bottom) {
+          return false;
+        }
+      }
+      potins = [
+        [bound.left, bound.top],
+        [bound.left, bound.bottom],
+        [bound.right, bound.top],
+        [bound.right, bound.bottom]
+      ];
+      for (var j = 0;j < potins.length;++j) {
+        var x = potins[j][0];
+        var y = potins[j][1];
+        if (x >= left && x <= right && y >= top && y <= bottom) {
           return false;
         }
       }

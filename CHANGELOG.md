@@ -1,5 +1,12 @@
 # Change Log
 
+## v0.6.0 / 2017-07-07
+### Added
+- option `showZero`. # 14
+
+### Fixed
+- outside label overlap in some cases.
+
 ## v0.5.0 / 2017-06-15
 ### Fixed
 - bug #12
