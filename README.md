@@ -34,7 +34,9 @@ new Chart(ctx, {
 
       // precision for percentage, default is 0
       precision: 0,
-
+      
+      //identifies whether or not labels of value 0 are displayed, default is false
+      showZero: true,    
       // font size, default is defaultFontSize
       fontSize: 12,
 
