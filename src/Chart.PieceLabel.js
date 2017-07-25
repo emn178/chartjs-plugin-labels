@@ -43,8 +43,9 @@
       switch (this.mode) {
         case 'value':
           var value = dataset.data[i];
+          var label = chartInstance.config.data.labels[i]
           if (this.format) {
-            value = this.format(value);
+            value = this.format(value, label);
           }
           text = value.toString();
           break;
