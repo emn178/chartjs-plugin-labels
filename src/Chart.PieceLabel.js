@@ -96,9 +96,9 @@
         position = element.tooltipPosition();
       }
       
-	  var fontColor = typeof this.fontColor === 'string' 
-				? this.fontColor 
-				: this.fontColor.length > i ? this.fontColor[i] : this.fontColor[this.fontColor.length - 1];
+      var fontColor = typeof this.fontColor === 'string' 
+                ? this.fontColor 
+                : this.fontColor.length > i ? this.fontColor[i] : this.options.defaultFontColor;
       if (this.arc) {
         if (!arcOffset)
           arcOffset = (innerRadius + view.outerRadius) / 2;
