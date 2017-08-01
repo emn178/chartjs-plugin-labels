@@ -95,11 +95,14 @@
         innerRadius = view.innerRadius;
         position = element.tooltipPosition();
       }
-
+      
+      var fontColor = typeof this.fontColor === 'string' 
+                ? this.fontColor 
+                : this.fontColor.length > i ? this.fontColor[i] : this.options.defaultFontColor;
       if (this.arc) {
         if (!arcOffset)
           arcOffset = (innerRadius + view.outerRadius) / 2;
-        ctx.fillStyle = this.fontColor;
+        ctx.fillStyle = fontColor;
         ctx.textBaseline = 'middle';
         this.drawArcText(text, arcOffset, view);
       } else {
@@ -115,7 +118,7 @@
             element.inRange(right, top) && element.inRange(right, bottom);
         }
         if (drawable) {
-          ctx.fillStyle = this.fontColor;
+          ctx.fillStyle = fontColor;
           ctx.textBaseline = 'top';
           ctx.textAlign = 'center';
           ctx.fillText(text, position.x, position.y - this.fontSize / 2);
