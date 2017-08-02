@@ -1,11 +1,12 @@
 /**
- * [Chart.PieceLabel.js]{@link https://github.com/emn178/Chart.PieceLabel.js}
- *
- * @version 0.6.0
- * @author Chen, Yi-Cyuan [emn178@gmail.com]
- * @copyright Chen, Yi-Cyuan 2017
- * @license MIT
- */
+* [Chart.PieceLabel.js]{@link https://github.com/emn178/Chart.PieceLabel.js}
+*
+* @version 0.6.0
+* @author Chen, Yi-Cyuan [emn178@gmail.com]
+* @copyright Chen, Yi-Cyuan 2017
+* @license MIT
+*/
+
 (function () {
   function PieceLabel() {
     this.drawDataset = this.drawDataset.bind(this);
@@ -34,7 +35,7 @@
     var totalPercentage = 0;
     for (var i = 0; i < meta.data.length; i++) {
       var element = meta.data[i],
-        view = element._view, text;
+      view = element._view, text;
 
       //Skips label creation if value is zero and showZero is set
       if (view.circumference === 0 && !this.showZero) {
@@ -42,38 +43,38 @@
       }
       switch (this.mode) {
         case 'value':
-          var value = dataset.data[i];
-          if (this.format) {
-            value = this.format(value);
-          }
-          text = value.toString();
-          break;
+        var value = dataset.data[i];
+        if (this.format) {
+          value = this.format(value);
+        }
+        text = value.toString();
+        break;
         case 'label':
-          text = chartInstance.config.data.labels[i];
-          break;
+        text = chartInstance.config.data.labels[i];
+        break;
         case 'percentage':
         default:
-          var percentage = view.circumference / this.options.circumference * 100;
+        var percentage = view.circumference / this.options.circumference * 100;
+        percentage = parseFloat(percentage.toFixed(this.precision));
+        totalPercentage += percentage;
+        if (totalPercentage > 100) {
+          percentage -= totalPercentage - 100;
+          // After adjusting the percentage, need to trim the numbers after decimal points again, otherwise it may not show
+          // on chart due to very long number after decimal point.
           percentage = parseFloat(percentage.toFixed(this.precision));
-          totalPercentage += percentage;
-          if (totalPercentage > 100) {
-            percentage -= totalPercentage - 100;
-            // After adjusting the percentage, need to trim the numbers after decimal points again, otherwise it may not show
-            // on chart due to very long number after decimal point.
-            percentage = parseFloat(percentage.toFixed(this.precision));
-          }
-          text = percentage + '%';
-          break;
+        }
+        text = percentage + '%';
+        break;
       }
       ctx.save();
       ctx.beginPath();
       ctx.font = Chart.helpers.fontString(this.fontSize, this.fontStyle, this.fontFamily);
       var position, innerRadius, arcOffset;
-      if (this.position === 'outside' || 
-        this.position === 'border' && chartInstance.config.type === 'pie') {
+      if (this.position === 'outside' ||
+      this.position === 'border' && chartInstance.config.type === 'pie') {
         innerRadius = view.outerRadius / 2;
         var rangeFromCentre, offset = this.fontSize + 2,
-          centreAngle = view.startAngle + ((view.endAngle - view.startAngle) / 2);
+        centreAngle = view.startAngle + ((view.endAngle - view.startAngle) / 2);
         if (this.position === 'border') {
           rangeFromCentre = (view.outerRadius - innerRadius) / 2 + innerRadius;
         } else if (this.position === 'outside') {
@@ -95,27 +96,27 @@
         innerRadius = view.innerRadius;
         position = element.tooltipPosition();
       }
-      
-      var fontColor = typeof this.fontColor === 'string' 
-                ? this.fontColor 
-                : this.fontColor.length > i ? this.fontColor[i] : this.options.defaultFontColor;
+
+      var fontColor = typeof this.fontColor === 'string'
+      ? this.fontColor
+      : this.fontColor.length > i ? this.fontColor[i] : this.options.defaultFontColor;
       if (this.arc) {
         if (!arcOffset)
-          arcOffset = (innerRadius + view.outerRadius) / 2;
+        arcOffset = (innerRadius + view.outerRadius) / 2;
         ctx.fillStyle = fontColor;
         ctx.textBaseline = 'middle';
         this.drawArcText(text, arcOffset, view);
       } else {
         var drawable, mertrics = ctx.measureText(text),
-          left = position.x - mertrics.width / 2,
-          right = position.x + mertrics.width / 2,
-          top = position.y - this.fontSize / 2,
-          bottom = position.y + this.fontSize / 2;
+        left = position.x - mertrics.width / 2,
+        right = position.x + mertrics.width / 2,
+        top = position.y - this.fontSize / 2,
+        bottom = position.y + this.fontSize / 2;
         if (this.position === 'outside') {
           drawable = this.checkTextBound(left, right, top, bottom);
         } else {
           drawable = element.inRange(left, top) && element.inRange(left, bottom) &&
-            element.inRange(right, top) && element.inRange(right, bottom);
+          element.inRange(right, top) && element.inRange(right, bottom);
         }
         if (drawable) {
           ctx.fillStyle = fontColor;
@@ -193,10 +194,10 @@
 
   PieceLabel.prototype.drawArcText = function (str, radius, view) {
     var ctx = this.ctx,
-      centerX = view.x,
-      centerY = view.y,
-      startAngle = view.startAngle,
-      endAngle = view.endAngle;
+    centerX = view.x,
+    centerY = view.y,
+    startAngle = view.startAngle,
+    endAngle = view.endAngle;
 
     ctx.save();
     ctx.translate(centerX, centerY);
@@ -222,6 +223,66 @@
     ctx.restore();
   };
 
+  PieceLabel.prototype.afterUpdate = function (chartInstance) {
+    if (chartInstance.options.pieceLabel && chartInstance.options.pieceLabel.center) {
+      var helpers = Chart.helpers;
+      var centerConfig = chartInstance.options.pieceLabel.center;
+      var globalConfig = Chart.defaults.global;
+      var ctx = chartInstance.chart.ctx;
+
+      var fontStyle = helpers.getValueOrDefault(centerConfig.fontStyle, globalConfig.defaultFontStyle);
+      var fontFamily = helpers.getValueOrDefault(centerConfig.fontFamily, globalConfig.defaultFontFamily);
+
+      if (centerConfig.fontSize) {
+        var fontSize = centerConfig.fontSize;
+        // figure out the best font size, if one is not specified
+      } else {
+        ctx.save();
+        var fontSize = helpers.getValueOrDefault(centerConfig.minFontSize, 1);
+        var maxFontSize = helpers.getValueOrDefault(centerConfig.maxFontSize, 256);
+        var maxText = helpers.getValueOrDefault(centerConfig.maxText, centerConfig.text);
+
+        do {
+          ctx.font = helpers.fontString(fontSize, fontStyle, fontFamily);
+          var textWidth = ctx.measureText(maxText).width;
+
+          // check if it fits, is within configured limits and that we are not simply toggling back and forth
+          if (textWidth < chartInstance.innerRadius * 2 && fontSize < maxFontSize)
+          fontSize += 1;
+          else {
+            // reverse last step
+            fontSize -= 1;
+            break;
+          }
+        } while (true)
+        ctx.restore();
+      }
+
+      // save properties
+      chartInstance.center = {
+        font: helpers.fontString(fontSize, fontStyle, fontFamily),
+        fillStyle: helpers.getValueOrDefault(centerConfig.fontColor, globalConfig.defaultFontColor)
+      };
+    }
+  }
+
+  PieceLabel.prototype.afterDraw = function (chartInstance) {
+    if (chartInstance.center) {
+      var centerConfig = chartInstance.options.pieceLabel.center;
+      var ctx = chartInstance.chart.ctx;
+
+      ctx.save();
+      ctx.font = chartInstance.center.font;
+      ctx.fillStyle = chartInstance.center.fillStyle;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      var centerX = (chartInstance.chartArea.left + chartInstance.chartArea.right) / 2;
+      var centerY = (chartInstance.chartArea.top + chartInstance.chartArea.bottom) / 2;
+      ctx.fillText(centerConfig.text, centerX, centerY);
+      ctx.restore();
+    }
+  },
+
   Chart.pluginService.register({
     beforeInit: function(chartInstance) {
       chartInstance.pieceLabel = new PieceLabel();
@@ -230,7 +291,11 @@
       chartInstance.pieceLabel.beforeDatasetsUpdate(chartInstance);
     },
     afterDatasetsDraw: function (chartInstance) {
+      chartInstance.pieceLabel.afterDraw(chartInstance);
       chartInstance.pieceLabel.afterDatasetsDraw(chartInstance);
+    },
+    afterUpdate: function (chartInstance) {
+      chartInstance.pieceLabel.afterUpdate(chartInstance);
     }
   });
 })();
