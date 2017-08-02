@@ -291,13 +291,11 @@
       chartInstance.pieceLabel.beforeDatasetsUpdate(chartInstance);
     },
     afterDatasetsDraw: function (chartInstance) {
+      chartInstance.pieceLabel.afterDraw(chartInstance);
       chartInstance.pieceLabel.afterDatasetsDraw(chartInstance);
     },
     afterUpdate: function (chartInstance) {
       chartInstance.pieceLabel.afterUpdate(chartInstance);
-    },
-    afterDraw: function (chartInstance) {
-      chartInstance.pieceLabel.afterDraw(chartInstance);
     }
   });
 })();
