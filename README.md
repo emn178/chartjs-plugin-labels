@@ -19,7 +19,8 @@ Or node.js, you can use this command to install:
     npm install chart.piecelabel.js
 
 ## Notice
-v0.4.0 has breaking changes. Please see [CHANGELOG](https://github.com/emn178/Chart.PieceLabel.js/blob/master/CHANGELOG.md#v040--2017-05-26)
+v0.7.0 has deprecated options. Please see [CHANGELOG v0.7.0](https://github.com/emn178/Chart.PieceLabel.js/blob/master/CHANGELOG.md#v070--2017-08-03)  
+v0.4.0 has breaking changes. Please see [CHANGELOG v0.4.0](https://github.com/emn178/Chart.PieceLabel.js/blob/master/CHANGELOG.md#v040--2017-05-26)
 
 ## Usage
 JavaScript
@@ -29,19 +30,19 @@ new Chart(ctx, {
   data: data,
   options: {
     pieceLabel: {
-      // mode 'label', 'value' or 'percentage', default is 'percentage'
-      mode: 'value',
+      // render 'label', 'value', 'percentage' or custom function, default is 'percentage'
+      render: 'value',
 
       // precision for percentage, default is 0
       precision: 0,
       
-      //identifies whether or not labels of value 0 are displayed, default is false
+      // identifies whether or not labels of value 0 are displayed, default is false
       showZero: true,
 
       // font size, default is defaultFontSize
       fontSize: 12,
 
-      // font color, default is '#fff'
+      // font color, can be color array for each data, default is defaultFontColor
       fontColor: '#fff',
 
       // font style, default is defaultFontStyle
@@ -57,13 +58,20 @@ new Chart(ctx, {
       // default is 'default'
       position: 'default',
 
-      // format text, work when mode is 'value'
-      format: function (value) { 
-        return '$' + value;
-      }
+      // draw label even it's overlap, default is false
+      overlap: true
     }
   }
 });
+
+// custom render
+{
+  render: function (args) {
+    // args will be something like:
+    // { label: 'Label', value: 123, percentage: 50 }
+    return '$' + args.value;
+  }
+}
 ```
 
 ## License

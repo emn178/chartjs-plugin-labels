@@ -1,5 +1,18 @@
 # Change Log
 
+## v0.7.0 / 2017-08-03
+### Added
+- option `overlap`. # 25
+- option `render` can be custom function. #21, #24
+- option `fontColor` can be array. #20
+
+### Changed
+- option `mode` rename to `render`, `mode` still works.
+
+### Deprecated
+- options `mode`.
+- options `format`.
+
 ## v0.6.0 / 2017-07-07
 ### Added
 - option `showZero`. # 14

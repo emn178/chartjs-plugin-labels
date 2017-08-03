@@ -45,7 +45,7 @@
                 display: false
               },
               pieceLabel: {
-                mode: 'label'
+                render: 'label'
               }
             }
           </pre>
@@ -62,7 +62,8 @@
           <pre class="brush: js">
             {
               pieceLabel: {
-                mode: 'percentage',
+                render: 'percentage',
+                fontColor: ['green', 'white', 'red'],
                 precision: 2
               }
             }
@@ -80,7 +81,7 @@
           <pre class="brush: js">
             {
               pieceLabel: {
-                mode: 'value',
+                render: 'value',
                 fontSize: 14,
                 fontStyle: 'bold',
                 fontColor: '#000',
@@ -101,11 +102,10 @@
           <pre class="brush: js">
             {
               pieceLabel: {
-                mode: 'value',
-                arc: true,
-                format: function (value) {
-                  return '$' + value;
-                }
+                render: function (args) {
+                  return '$' + args.value;
+                },
+                arc: true
               }
             }
           </pre>
@@ -122,7 +122,7 @@
           <pre class="brush: js">
             {
               pieceLabel: {
-                mode: 'label',
+                render: 'label',
                 arc: true,
                 position: 'border'
               }
@@ -141,7 +141,7 @@
           <pre class="brush: js">
             {
               pieceLabel: {
-                mode: 'label',
+                render: 'label',
                 fontColor: '#000',
                 position: 'outside'
               }
@@ -160,10 +160,29 @@
           <pre class="brush: js">
             {
               pieceLabel: {
-                mode: 'label',
+                render: 'label',
                 arc: true,
                 fontColor: '#000',
                 position: 'outside'
+              }
+            }
+          </pre>
+        </div>
+      </div>
+      <div class="row">
+        <div class="chart-wrapper">
+          <canvas id="pie-canvas8"></canvas>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="doughnut-canvas8"></canvas>
+        </div>
+        <div class="code">
+          <pre class="brush: js">
+            {
+              pieceLabel: {
+                render: 'label',
+                fontSize: 14,
+                overlap: true
               }
             }
           </pre>
@@ -206,14 +225,15 @@
           display: false
         },
         pieceLabel: {
-          mode: 'label'
+          render: 'label'
         }
       });
       createChart(type + '-canvas2', type, {
         responsive: true,
         maintainAspectRatio: false,
         pieceLabel: {
-          mode: 'percentage',
+          render: 'percentage',
+          fontColor: ['green', 'white', 'red'],
           precision: 2
         }
       });
@@ -221,7 +241,7 @@
         responsive: true,
         maintainAspectRatio: false,
         pieceLabel: {
-          mode: 'value',
+          render: 'value',
           fontSize: 14,
           fontStyle: 'bold',
           fontColor: '#000',
@@ -231,19 +251,19 @@
       createChart(type + '-canvas4', type, {
         responsive: true,
         maintainAspectRatio: false,
+        defaultFontColor: '#fff',
         pieceLabel: {
-          mode: 'value',
-          arc: true,
-          format: function (value) {
-            return '$' + value;
-          }
+          render: function (args) {
+            return '$' + args.value;
+          },
+          arc: true
         }
       });
       createChart(type + '-canvas5', type, {
         responsive: true,
         maintainAspectRatio: false,
         pieceLabel: {
-          mode: 'label',
+          render: 'label',
           arc: true,
           position: 'border'
         }
@@ -252,7 +272,7 @@
         responsive: true,
         maintainAspectRatio: false,
         pieceLabel: {
-          mode: 'label',
+          render: 'label',
           fontColor: '#000',
           position: 'outside'
         }
@@ -261,10 +281,19 @@
         responsive: true,
         maintainAspectRatio: false,
         pieceLabel: {
-          mode: 'label',
+          render: 'label',
           arc: true,
           fontColor: '#000',
           position: 'outside'
+        }
+      });
+      createChart(type + '-canvas8', type, {
+        responsive: true,
+        maintainAspectRatio: false,
+        pieceLabel: {
+          render: 'label',
+          fontSize: 14,
+          overlap: true
         }
       });
     });
