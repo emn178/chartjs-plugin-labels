@@ -81,13 +81,12 @@
           <pre class="brush: js">
             {
               pieceLabel: {
-                render: 'percentage',
-                fontColor: function(data) {
-                  var bColor=hexToRgb(data.backgroundColor);
-                  var threshold=140;
-                  var luminance=0.299*bColor.r + 0.587*bColor.g + 0.114*bColor.b;
-                  if (luminance>threshold) return 'black';
-                  else return 'white';
+                render: &#39;percentage&#39;,
+                fontColor: function (data) {
+                  var rgb = hexToRgb(data.backgroundColor);
+                  var threshold = 140;
+                  var luminance = 0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b;
+                  return luminance &gt; threshold ? &#39;black&#39; : &#39;white&#39;;
                 },
                 precision: 2
               }
@@ -213,6 +212,28 @@
           </pre>
         </div>
       </div>
+      <div class="row">
+        <div class="chart-wrapper">
+          <canvas id="pie-canvas10"></canvas>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="doughnut-canvas10"></canvas>
+        </div>
+        <div class="code">
+          <pre class="brush: js">
+            {
+              pieceLabel: {
+                render: 'image',
+                images: [
+                  { src: 'taiwan.png', width: 32, height: 22 },
+                  { src: 'jpan.png', width: 32, height: 22 },
+                  { src: 'usa.png', width: 32, height: 22 }
+                ]
+              }
+            }
+          </pre>
+        </div>
+      </div>
     </div>
   </div>
   <div id="footer">
@@ -220,20 +241,20 @@
   </div>
   <script>
     function hexToRgb(hex) {
-        // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
-        var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-        hex = hex.replace(shorthandRegex, function(m, r, g, b) {
-            return r + r + g + g + b + b;
-        });
+      // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+      var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+      hex = hex.replace(shorthandRegex, function (m, r, g, b) {
+        return r + r + g + g + b + b;
+      });
 
-        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-            r: parseInt(result[1], 16),
-            g: parseInt(result[2], 16),
-            b: parseInt(result[3], 16)
-        } : null;
+      var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+      } : null;
     }
-  
+
     function createChart(id, type, options) {
       var data = {
         labels: ['January', 'February', 'March'],
@@ -282,12 +303,11 @@
         maintainAspectRatio: false,
         pieceLabel: {
           render: 'percentage',
-          fontColor: function(data) {
-            var bColor=hexToRgb(data.backgroundColor);
-            var threshold=140;
-            var luminance=0.299*bColor.r + 0.587*bColor.g + 0.114*bColor.b;
-            if (luminance>threshold) return 'black';
-            else return 'white';
+          fontColor: function (args) {
+            var rgb = hexToRgb(args.backgroundColor);
+            var threshold = 140;
+            var luminance = 0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b;
+            return luminance > threshold ? 'black' : 'white';
           },
           precision: 2
         }
@@ -348,6 +368,18 @@
           render: 'label',
           fontSize: 14,
           overlap: true
+        }
+      });
+      createChart(type + '-canvas10', type, {
+        responsive: true,
+        maintainAspectRatio: false,
+        pieceLabel: {
+          render: 'image',
+          images: [
+            { src: 'taiwan.png', width: 32, height: 22 },
+            { src: 'jpan.png', width: 32, height: 22 },
+            { src: 'usa.png', width: 32, height: 22 }
+          ]
         }
       });
     });
