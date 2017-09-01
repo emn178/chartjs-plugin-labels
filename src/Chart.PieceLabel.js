@@ -1,7 +1,7 @@
 /**
  * [Chart.PieceLabel.js]{@link https://github.com/emn178/Chart.PieceLabel.js}
  *
- * @version 0.7.0
+ * @version 0.8.0
  * @author Chen, Yi-Cyuan [emn178@gmail.com]
  * @copyright Chen, Yi-Cyuan 2017
  * @license MIT
@@ -51,6 +51,9 @@
         case 'label':
           text = chartInstance.config.data.labels[i];
           break;
+        case 'image':
+          text = this.images[i] ? this.loadImage(this.images[i]) : '';
+          break;
         case 'percentage':
         default:
           var percentage = view.circumference / this.options.circumference * 100;
@@ -71,12 +74,19 @@
           value: dataset.data[i],
           percentage: percentage
         });
+
+        if (typeof text === 'object') {
+          text = this.loadImage(text);
+        }
+      }
+      if (!text) {
+        return;
       }
       ctx.save();
       ctx.beginPath();
       ctx.font = Chart.helpers.fontString(this.fontSize, this.fontStyle, this.fontFamily);
       var position, innerRadius, arcOffset;
-      if (this.position === 'outside' || 
+      if (this.position === 'outside' ||
         this.position === 'border' && chartInstance.config.type === 'pie') {
         innerRadius = view.outerRadius / 2;
         var rangeFromCentre, offset = this.fontSize + 2,
@@ -102,19 +112,18 @@
         innerRadius = view.innerRadius;
         position = element.tooltipPosition();
       }
-      
+
       var fontColor = this.fontColor;
-      if (typeof this.fontColor === 'function') {
-        fontColor = this.fontColor({
+      if (typeof fontColor === 'function') {
+        fontColor = fontColor({
           label: chartInstance.config.data.labels[i],
           value: dataset.data[i],
           percentage: percentage,
           text: text,
           backgroundColor: dataset.backgroundColor[i]
         });
-      }
-      else if (typeof this.fontColor !== 'string') {
-        fontColor = this.fontColor[i] || this.options.defaultFontColor;
+      } else if (typeof fontColor !== 'string') {
+        fontColor = fontColor[i] || this.options.defaultFontColor;
       }
       if (this.arc) {
         if (!arcOffset) {
@@ -124,7 +133,7 @@
         ctx.textBaseline = 'middle';
         this.drawArcText(text, arcOffset, view, this.overlap);
       } else {
-        var drawable, mertrics = ctx.measureText(text),
+        var drawable, mertrics = this.measureText(text),
           left = position.x - mertrics.width / 2,
           right = position.x + mertrics.width / 2,
           top = position.y - this.fontSize / 2,
@@ -138,10 +147,7 @@
             element.inRange(right, top) && element.inRange(right, bottom);
         }
         if (drawable) {
-          ctx.fillStyle = fontColor;
-          ctx.textBaseline = 'top';
-          ctx.textAlign = 'center';
-          ctx.fillText(text, position.x, position.y - this.fontSize / 2);
+          this.fillText(text, position, fontColor);
         }
       }
       ctx.restore();
@@ -166,6 +172,7 @@
       this.hasTooltip = chartInstance.tooltip._active && chartInstance.tooltip._active.length;
       this.showZero = pieceLabel.showZero;
       this.overlap = pieceLabel.overlap;
+      this.images = pieceLabel.images || [];
       return true;
     } else {
       return false;
@@ -212,6 +219,34 @@
     return true;
   };
 
+  PieceLabel.prototype.measureText = function (text) {
+    if (typeof text === 'string') {
+      return this.ctx.measureText(text);
+    } else {
+      return { width: text.width, height: text.height };
+    }
+  };
+
+  PieceLabel.prototype.fillText = function (text, position, fontColor) {
+    var ctx = this.ctx;
+    if (typeof text === 'string') {
+      ctx.fillStyle = fontColor;
+      ctx.textBaseline = 'top';
+      ctx.textAlign = 'center';
+      ctx.fillText(text, position.x, position.y - this.fontSize / 2);
+    } else {
+      ctx.drawImage(text, position.x - text.width / 2, position.y - text.height / 2, text.width, text.height);
+    }
+  };
+
+  PieceLabel.prototype.loadImage = function (obj) {
+    var image = new Image();
+    image.src = obj.src;
+    image.width = obj.width;
+    image.height = obj.height;
+    return image;
+  };
+
   PieceLabel.prototype.drawArcText = function (str, radius, view, overlap) {
     var ctx = this.ctx,
       centerX = view.x,
@@ -224,21 +259,29 @@
     var angleSize = endAngle - startAngle;
     startAngle += Math.PI / 2;
     endAngle += Math.PI / 2;
-    var mertrics = ctx.measureText(str);
+    var origStartAngle = startAngle;
+    var mertrics = this.measureText(str);
     startAngle += (endAngle - (mertrics.width / radius + startAngle)) / 2;
     if (!overlap && endAngle - startAngle > angleSize) {
       ctx.restore();
       return;
     }
-    ctx.rotate(startAngle);
-    for (var i = 0; i < str.length; i++) {
-      var char = str.charAt(i);
-      mertrics = ctx.measureText(char);
-      ctx.save();
+
+    if (typeof str === 'string') {
+      ctx.rotate(startAngle);
+      for (var i = 0; i < str.length; i++) {
+        var char = str.charAt(i);
+        mertrics = ctx.measureText(char);
+        ctx.save();
+        ctx.translate(0, -1 * radius);
+        ctx.fillText(char, 0, 0);
+        ctx.restore();
+        ctx.rotate(mertrics.width / radius);
+      }
+    } else {
+      ctx.rotate((origStartAngle + endAngle) / 2);
       ctx.translate(0, -1 * radius);
-      ctx.fillText(char, 0, 0);
-      ctx.restore();
-      ctx.rotate(mertrics.width / radius);
+      this.fillText(str, { x: 0, y: 0 });
     }
     ctx.restore();
   };

@@ -1,5 +1,10 @@
 # Change Log
 
+## v0.8.0 / 2017-08-29
+### Added
+- option `fontColor` can be function. #29
+- option `render` can be 'image'. #19
+
 ## v0.7.0 / 2017-08-03
 ### Added
 - option `overlap`. # 25
