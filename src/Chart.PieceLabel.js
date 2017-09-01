@@ -120,7 +120,10 @@
           value: dataset.data[i],
           percentage: percentage,
           text: text,
-          backgroundColor: dataset.backgroundColor[i]
+          backgroundColor: dataset.backgroundColor[i],
+          borderColor: dataset.borderColor ? dataset.borderColor[i] : null,
+          hoverBackgroundColor: dataset.hoverBackgroundColor ? dataset.hoverBackgroundColor[i] : null,
+          hoverBorderColor: dataset.hoverBorderColor ? dataset.hoverBorderColor[i] : null
         });
       } else if (typeof fontColor !== 'string') {
         fontColor = fontColor[i] || this.options.defaultFontColor;
