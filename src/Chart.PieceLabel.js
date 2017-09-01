@@ -104,7 +104,16 @@
       }
       
       var fontColor = this.fontColor;
-      if (typeof this.fontColor !== 'string') {
+      if (typeof this.fontColor === 'function') {
+        fontColor = this.fontColor({
+          label: chartInstance.config.data.labels[i],
+          value: dataset.data[i],
+          percentage: percentage,
+          text: text,
+          backgroundColor: dataset.backgroundColor[i]
+        });
+      }
+      else if (typeof this.fontColor !== 'string') {
         fontColor = this.fontColor[i] || this.options.defaultFontColor;
       }
       if (this.arc) {
