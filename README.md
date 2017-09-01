@@ -30,19 +30,19 @@ new Chart(ctx, {
   data: data,
   options: {
     pieceLabel: {
-      // render 'label', 'value', 'percentage' or custom function, default is 'percentage'
+      // render 'label', 'value', 'percentage', 'image' or custom function, default is 'percentage'
       render: 'value',
 
       // precision for percentage, default is 0
       precision: 0,
-      
+
       // identifies whether or not labels of value 0 are displayed, default is false
       showZero: true,
 
       // font size, default is defaultFontSize
       fontSize: 12,
 
-      // font color, can be color array for each data, default is defaultFontColor
+      // font color, can be color array for each data or function for dynamic color, default is defaultFontColor
       fontColor: '#fff',
 
       // font style, default is defaultFontStyle
@@ -59,7 +59,16 @@ new Chart(ctx, {
       position: 'default',
 
       // draw label even it's overlap, default is false
-      overlap: true
+      overlap: true,
+
+      // set images when `render` is 'image'
+      images: [
+        {
+          src: 'image.png',
+          width: 16,
+          height: 16
+        }
+      ]
     }
   }
 });
@@ -70,6 +79,18 @@ new Chart(ctx, {
     // args will be something like:
     // { label: 'Label', value: 123, percentage: 50 }
     return '$' + args.value;
+
+    // return object if it is image
+    // return { src: 'image.png', width: 16, height: 16 };
+  }
+}
+
+// dynamic fontColor
+{
+  fontColor: function (args) {
+    // args will be something like:
+    // { backgroundColor: '#FF6384' }
+    return myColorTransfer(args.backgroundColor);
   }
 }
 ```
