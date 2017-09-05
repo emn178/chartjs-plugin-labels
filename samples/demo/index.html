@@ -83,7 +83,7 @@
               pieceLabel: {
                 render: &#39;percentage&#39;,
                 fontColor: function (data) {
-                  var rgb = hexToRgb(data.backgroundColor);
+                  var rgb = hexToRgb(data.dataset.backgroundColor[data.index]);
                   var threshold = 140;
                   var luminance = 0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b;
                   return luminance &gt; threshold ? &#39;black&#39; : &#39;white&#39;;
@@ -304,7 +304,7 @@
         pieceLabel: {
           render: 'percentage',
           fontColor: function (args) {
-            var rgb = hexToRgb(args.backgroundColor);
+            var rgb = hexToRgb(args.dataset.backgroundColor[args.index]);
             var threshold = 140;
             var luminance = 0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b;
             return luminance > threshold ? 'black' : 'white';

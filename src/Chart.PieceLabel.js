@@ -117,13 +117,10 @@
       if (typeof fontColor === 'function') {
         fontColor = fontColor({
           label: chartInstance.config.data.labels[i],
-          value: dataset.data[i],
           percentage: percentage,
           text: text,
-          backgroundColor: dataset.backgroundColor[i],
-          borderColor: dataset.borderColor ? dataset.borderColor[i] : null,
-          hoverBackgroundColor: dataset.hoverBackgroundColor ? dataset.hoverBackgroundColor[i] : null,
-          hoverBorderColor: dataset.hoverBorderColor ? dataset.hoverBorderColor[i] : null
+          dataset: dataset,
+          index: i
         });
       } else if (typeof fontColor !== 'string') {
         fontColor = fontColor[i] || this.options.defaultFontColor;
