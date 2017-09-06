@@ -117,8 +117,10 @@
       if (typeof fontColor === 'function') {
         fontColor = fontColor({
           label: chartInstance.config.data.labels[i],
+          value: dataset.data[i],
           percentage: percentage,
           text: text,
+          backgroundColor: dataset.backgroundColor[i],
           dataset: dataset,
           index: i
         });
