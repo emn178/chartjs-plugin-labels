@@ -120,7 +120,9 @@
           value: dataset.data[i],
           percentage: percentage,
           text: text,
-          backgroundColor: dataset.backgroundColor[i]
+          backgroundColor: dataset.backgroundColor[i],
+          dataset: dataset,
+          index: i
         });
       } else if (typeof fontColor !== 'string') {
         fontColor = fontColor[i] || this.options.defaultFontColor;
