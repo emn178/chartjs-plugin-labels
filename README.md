@@ -89,8 +89,8 @@ new Chart(ctx, {
 {
   fontColor: function (args) {
     // args will be something like:
-    // { backgroundColor: '#FF6384' }
-    return myColorTransfer(args.backgroundColor);
+    // { index: 0, dataset: {...} }
+    return myColorTransfer(args.dataset.backgroundColor[index]);
   }
 }
 ```

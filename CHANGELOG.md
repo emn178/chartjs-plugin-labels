@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.8.1 / 2017-09-07
+### Added
+- dataset and index parameters to `fontColor`. #32
+
 ## v0.8.0 / 2017-08-29
 ### Added
 - option `fontColor` can be function. #29
