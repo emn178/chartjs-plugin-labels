@@ -1,12 +1,17 @@
 /**
  * [Chart.PieceLabel.js]{@link https://github.com/emn178/Chart.PieceLabel.js}
  *
- * @version 0.8.1
+ * @version 0.8.2
  * @author Chen, Yi-Cyuan [emn178@gmail.com]
  * @copyright Chen, Yi-Cyuan 2017
  * @license MIT
  */
 (function () {
+  if (typeof Chart === 'undefined') {
+    console.warn('Can not find Chart object.');
+    return;
+  }
+
   function PieceLabel() {
     this.drawDataset = this.drawDataset.bind(this);
   }
@@ -72,7 +77,9 @@
         text = this.render({
           label: chartInstance.config.data.labels[i],
           value: dataset.data[i],
-          percentage: percentage
+          percentage: percentage,
+          dataset: dataset,
+          index: i
         });
 
         if (typeof text === 'object') {

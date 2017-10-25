@@ -77,7 +77,7 @@ new Chart(ctx, {
 {
   render: function (args) {
     // args will be something like:
-    // { label: 'Label', value: 123, percentage: 50 }
+    // { label: 'Label', value: 123, percentage: 50, index: 0, dataset: {...} }
     return '$' + args.value;
 
     // return object if it is image

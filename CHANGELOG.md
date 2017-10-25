@@ -1,5 +1,10 @@
 # Change Log
 
+## v0.8.2 / 2017-10-25
+### Added
+- dataset and index parameters to `render`. #35
+- Chart not defined check for SSR #33
+
 ## v0.8.1 / 2017-09-07
 ### Added
 - dataset and index parameters to `fontColor`. #32
