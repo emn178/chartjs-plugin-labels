@@ -63,15 +63,13 @@
         default:
           var percentage = view.circumference / this.options.circumference * 100;
           percentage = parseFloat(percentage.toFixed(this.precision));
-		  if(!this.options.showActualPercentages){
-			totalPercentage += percentage;
-			if (totalPercentage > 100) {
-			  percentage -= totalPercentage - 100;
-			  // After adjusting the percentage, need to trim the numbers after decimal points again, otherwise it may not show
-			  // on chart due to very long number after decimal point.
-			  percentage = parseFloat(percentage.toFixed(this.precision));
-			}
-		  }
+          totalPercentage += percentage;
+          if (totalPercentage > 100) {
+            percentage -= totalPercentage - 100;
+            // After adjusting the percentage, need to trim the numbers after decimal points again, otherwise it may not show
+            // on chart due to very long number after decimal point.
+            percentage = parseFloat(percentage.toFixed(this.precision));
+          }
           text = percentage + '%';
           break;
       }
@@ -184,7 +182,6 @@
       this.showZero = pieceLabel.showZero;
       this.overlap = pieceLabel.overlap;
       this.images = pieceLabel.images || [];
-	  this.showActualPercentages = pieceLabel.images || false;
       return true;
     } else {
       return false;
