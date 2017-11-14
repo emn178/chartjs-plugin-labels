@@ -60,6 +60,9 @@ new Chart(ctx, {
 
       // draw label even it's overlap, default is false
       overlap: true,
+	  
+	  // show the real calculated percentages from the values and don't apply the additional logic to fit the percentages to 100 in total, default is false
+	  showActualPercentages: true,
 
       // set images when `render` is 'image'
       images: [
