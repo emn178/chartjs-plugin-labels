@@ -184,7 +184,7 @@
       this.showZero = pieceLabel.showZero;
       this.overlap = pieceLabel.overlap;
       this.images = pieceLabel.images || [];
-      this.showActualPercentages = pieceLabel.images || false;
+      this.showActualPercentages = pieceLabel.showActualPercentages || false;
       return true;
     } else {
       return false;
