@@ -63,7 +63,7 @@
         default:
           var percentage = view.circumference / this.options.circumference * 100;
           percentage = parseFloat(percentage.toFixed(this.precision));
-          if(!this.options.showActualPercentages){
+          if(!this.showActualPercentages){
             totalPercentage += percentage;
             if (totalPercentage > 100) {
               percentage -= totalPercentage - 100;
