@@ -1,7 +1,7 @@
 /**
  * [Chart.PieceLabel.js]{@link https://github.com/emn178/Chart.PieceLabel.js}
  *
- * @version 0.8.2
+ * @version 0.9.0
  * @author Chen, Yi-Cyuan [emn178@gmail.com]
  * @copyright Chen, Yi-Cyuan 2017
  * @license MIT
@@ -63,7 +63,7 @@
         default:
           var percentage = view.circumference / this.options.circumference * 100;
           percentage = parseFloat(percentage.toFixed(this.precision));
-          if(!this.options.showActualPercentages){
+          if (!this.showActualPercentages) {
             totalPercentage += percentage;
             if (totalPercentage > 100) {
               percentage -= totalPercentage - 100;
@@ -232,22 +232,22 @@
   };
 
   PieceLabel.prototype.measureText = function (text) {
-    if (typeof text === 'string') {
-      return this.ctx.measureText(text);
-    } else {
+    if (typeof text === 'object') {
       return { width: text.width, height: text.height };
+    } else {
+      return this.ctx.measureText(text);
     }
   };
 
   PieceLabel.prototype.fillText = function (text, position, fontColor) {
     var ctx = this.ctx;
-    if (typeof text === 'string') {
+    if (typeof text === 'object') {
+      ctx.drawImage(text, position.x - text.width / 2, position.y - text.height / 2, text.width, text.height);
+    } else {
       ctx.fillStyle = fontColor;
       ctx.textBaseline = 'top';
       ctx.textAlign = 'center';
       ctx.fillText(text, position.x, position.y - this.fontSize / 2);
-    } else {
-      ctx.drawImage(text, position.x - text.width / 2, position.y - text.height / 2, text.width, text.height);
     }
   };
 

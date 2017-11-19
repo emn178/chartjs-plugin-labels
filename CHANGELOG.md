@@ -1,5 +1,12 @@
 # Change Log
 
+## v0.9.0 / 2017-11-19
+### Added
+- option `showActualPercentages`. #42
+
+### Fixed
+- numbers as labels. #38
+
 ## v0.8.2 / 2017-10-25
 ### Added
 - dataset and index parameters to `render`. #35
