@@ -298,7 +298,7 @@
     ctx.restore();
   };
 
-  Chart.pluginService.register({
+  typeof Chart !== 'undefined' && Chart.pluginService.register({
     beforeInit: function(chartInstance) {
       chartInstance.pieceLabel = new PieceLabel();
     },
