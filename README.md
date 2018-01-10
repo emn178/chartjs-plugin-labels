@@ -72,6 +72,15 @@ new Chart(ctx, {
           height: 16
         }
       ]
+	  
+	  // available only when position = 'outside'
+	  // if value = true show a callout arrow to label
+	  segment: false,
+
+	  // available only when position = 'outside'
+	  // stroke color for segment (if value = 'auto' use series backgroundColor)
+	  segmentColor: 'auto'
+	  
     }
   }
 });
