@@ -18,7 +18,7 @@
 
   PieceLabel.prototype.beforeDatasetsUpdate = function (chartInstance) {
     if (this.parseOptions(chartInstance) && this.position === 'outside') {
-      var padding = this.fontSize * 1.5 + 2;
+      var padding = this.fontSize * 1.5 + this.padding;
       chartInstance.chartArea.top += padding;
       chartInstance.chartArea.bottom -= padding;
     }
@@ -98,7 +98,7 @@
       if (this.position === 'outside' ||
         this.position === 'border' && chartInstance.config.type === 'pie') {
         innerRadius = view.outerRadius / 2;
-        var rangeFromCentre, offset = this.fontSize + 2,
+        var rangeFromCentre, offset = this.fontSize + this.padding,
           centreAngle = view.startAngle + ((view.endAngle - view.startAngle) / 2);
         if (this.position === 'border') {
           rangeFromCentre = (view.outerRadius - innerRadius) / 2 + innerRadius;
@@ -184,6 +184,7 @@
       this.showZero = pieceLabel.showZero;
       this.overlap = pieceLabel.overlap;
       this.images = pieceLabel.images || [];
+      this.padding = pieceLabel.padding || 2;
       this.showActualPercentages = pieceLabel.showActualPercentages || false;
       return true;
     } else {
