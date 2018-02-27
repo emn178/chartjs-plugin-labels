@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/beaver71/Chart.PieceLabel.js.git"
+    "url": "https://github.com/emn178/Chart.PieceLabel.js.git"
   },
   "keywords": [
     "chart",
@@ -16,10 +16,9 @@
   ],
   "license": "MIT",
   "author": "Chen, Yi-Cyuan <emn178@gmail.com>",
-  "forkedby": "Beaver71",
-  "homepage": "https://github.com/beaver71/Chart.PieceLabel.js",
+  "homepage": "https://github.com/emn178/Chart.PieceLabel.js",
   "bugs": {
-    "url": "https://github.com/beaver71/Chart.PieceLabel.js/issues"
+    "url": "https://github.com/emn178/Chart.PieceLabel.js/issues"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
