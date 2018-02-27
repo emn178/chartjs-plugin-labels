@@ -3,6 +3,7 @@ PieceLabel plugin for Chart.js.
 
 ## Demo
 [Demo](http://emn178.github.io/Chart.PieceLabel.js/samples/demo/)
+[Demo 2](http://emn178.github.io/Chart.PieceLabel.js/samples/demo/index_2.html)
 
 ## Download
 [Compress](https://raw.github.com/emn178/Chart.PieceLabel.js/master/build/Chart.PieceLabel.min.js)  
@@ -72,6 +73,15 @@ new Chart(ctx, {
           height: 16
         }
       ]
+	  
+      // available only when position = 'outside'
+      // if value = true show a callout arrow to label
+      segment: false,
+
+      // available only when position = 'outside'
+      // stroke color for segment (if value = 'auto' use series backgroundColor)
+      segmentColor: 'auto'
+	  
     }
   }
 });

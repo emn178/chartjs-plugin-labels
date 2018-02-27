@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chart PieceLabel</title>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
+  <script type="text/javascript" src="../../build/Chart.PieceLabel.min.js"></script>
+</head>
+<body>
+  <div id="header">
+    <h1>Chart PieceLabel - demo 2</h1>
+  </div>
+  <div id="body">
+    <div id="description">
+      <p>
+        Outside label with segment like 'callout'
+      </p>
+    </div>
+    <div class="charts">
+      <div class="row">
+        <div class="chart-wrapper">
+          <canvas id="pie-canvas7"></canvas>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="doughnut-canvas7"></canvas>
+        </div>
+        <div class="code">
+          <pre class="brush: js">
+            {
+              pieceLabel: {
+                render: 'label',
+                fontColor: '#000',
+                position: 'outside',
+                segment: true
+              }
+            }
+          </pre>
+        </div>
+      </div>
+	  
+      <div class="row">
+        <div class="chart-wrapper">
+          <canvas id="pie-canvas8"></canvas>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="doughnut-canvas8"></canvas>
+        </div>
+        <div class="code">
+          <pre class="brush: js">
+            {
+              pieceLabel: {
+                render: 'label',
+                fontColor: '#000',
+                position: 'outside',
+                segment: false
+              }
+            }
+          </pre>
+        </div>
+      </div>
+	  
+      <div class="row">
+        <div class="chart-wrapper">
+          <canvas id="pie-canvas9"></canvas>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="doughnut-canvas9"></canvas>
+        </div>
+        <div class="code">
+          <pre class="brush: js">
+            {
+              pieceLabel: {
+                render: 'label',
+                fontColor: '#000',
+                position: 'outside',
+                segment: true,
+                segmentColor: '#c1c1c1'
+              }
+            }
+          </pre>
+        </div>
+      </div>
+	  
+    </div>
+  </div>
+
+  <script>
+
+    function createChart(id, type, options) {
+      var data = {
+        labels: ['January', 'February', 'March', 'April'],
+        datasets: [
+          {
+            label: 'My First dataset',
+            data: [50445, 33655, 15900, 9000],
+            backgroundColor: [
+              '#FF6384',
+              '#36A2EB',
+              '#FFCE56',
+              '#46BFBD'
+            ]
+          }
+        ]
+      };
+
+      new Chart(document.getElementById(id), {
+        type: type,
+        data: data,
+        options: options
+      });
+    }
+
+    ['pie', 'doughnut'].forEach(function (type) {
+	
+      createChart(type + '-canvas7', type, {
+        responsive: true,
+        maintainAspectRatio: false,
+		legend: {
+            display: false,
+		},
+        pieceLabel: {
+          render: 'label',
+          fontColor: '#000',
+          position: 'outside',
+          segment: true
+        }
+      });
+
+      createChart(type + '-canvas8', type, {
+        responsive: true,
+        maintainAspectRatio: false,
+		legend: {
+            display: false,
+		},
+        pieceLabel: {
+          render: 'label',
+          fontColor: '#000',
+          position: 'outside',
+		  segment: false
+        }
+      });
+	  
+      createChart(type + '-canvas9', type, {
+        responsive: true,
+        maintainAspectRatio: false,
+		legend: {
+            display: false,
+		},
+        pieceLabel: {
+          render: 'label',
+          fontColor: '#000',
+          position: 'outside',
+          segment: true,
+          segmentColor: '#c1c1c1'
+        }
+      });
+	  
+    });
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shCore.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shThemeDefault.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shCore.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shBrushJScript.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shBrushXml.js"></script>
+  <script>
+    SyntaxHighlighter.all();
+  </script>
+</body>
+</html>

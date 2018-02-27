@@ -1,6 +1,6 @@
 {
   "name": "chart.piecelabel.js",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "PieceLabel plugin for Chart.js",
   "main": "src/Chart.PieceLabel.js",
   "dependencies": {
@@ -19,5 +19,9 @@
   "homepage": "https://github.com/emn178/Chart.PieceLabel.js",
   "bugs": {
     "url": "https://github.com/emn178/Chart.PieceLabel.js/issues"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-minify": "^2.1.0"
   }
 }
