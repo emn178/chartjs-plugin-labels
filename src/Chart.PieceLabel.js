@@ -248,7 +248,10 @@
       ctx.fillStyle = fontColor;
       ctx.textBaseline = 'top';
       ctx.textAlign = 'center';
-      ctx.fillText(text, position.x, position.y - this.fontSize / 2);
+      var lines = text.split("\n");
+      for (var i = 0; i < lines.length; ++i) {
+        ctx.fillText(lines[i], position.x, position.y + i * this.fontSize - this.fontSize / 2);
+      }
     }
   };
 
