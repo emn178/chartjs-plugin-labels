@@ -1,9 +1,9 @@
 /**
  * [Chart.PieceLabel.js]{@link https://github.com/emn178/Chart.PieceLabel.js}
  *
- * @version 0.9.0
+ * @version 0.10.0
  * @author Chen, Yi-Cyuan [emn178@gmail.com]
- * @copyright Chen, Yi-Cyuan 2017
+ * @copyright Chen, Yi-Cyuan 2017-2018
  * @license MIT
  */
 (function () {
@@ -18,7 +18,7 @@
 
   PieceLabel.prototype.beforeDatasetsUpdate = function (chartInstance) {
     if (this.parseOptions(chartInstance) && this.position === 'outside') {
-      var padding = this.fontSize * 1.5 + this.padding;
+      var padding = this.fontSize * 1.5 + this.outsidePadding;
       chartInstance.chartArea.top += padding;
       chartInstance.chartArea.bottom -= padding;
     }
@@ -89,16 +89,15 @@
         }
       }
       if (!text) {
-        return;
+        continue;
       }
       ctx.save();
       ctx.beginPath();
       ctx.font = Chart.helpers.fontString(this.fontSize, this.fontStyle, this.fontFamily);
       var position, innerRadius, arcOffset;
-      if (this.position === 'outside' ||
-        this.position === 'border' && chartInstance.config.type === 'pie') {
+      if (this.position === 'outside' || this.position === 'border') {
         innerRadius = view.outerRadius / 2;
-        var rangeFromCentre, offset = this.fontSize + this.padding,
+        var rangeFromCentre, offset = this.fontSize + 2,
           centreAngle = view.startAngle + ((view.endAngle - view.startAngle) / 2);
         if (this.position === 'border') {
           rangeFromCentre = (view.outerRadius - innerRadius) / 2 + innerRadius;
@@ -184,7 +183,7 @@
       this.showZero = pieceLabel.showZero;
       this.overlap = pieceLabel.overlap;
       this.images = pieceLabel.images || [];
-      this.padding = pieceLabel.padding || 2;
+      this.outsidePadding = pieceLabel.outsidePadding || 2;
       this.showActualPercentages = pieceLabel.showActualPercentages || false;
       return true;
     } else {

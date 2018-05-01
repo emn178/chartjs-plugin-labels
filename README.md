@@ -71,7 +71,11 @@ new Chart(ctx, {
           width: 16,
           height: 16
         }
-      ]
+      ],
+
+      // add padding when position is `outside`
+      // default is 2
+      outsidePadding: 4
     }
   }
 });

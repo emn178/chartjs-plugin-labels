@@ -1,5 +1,12 @@
 # Change Log
 
+## v0.10.0 / 2017-11-19
+### Added
+- option `outsidePadding`. #42
+
+### Fixed
+- render stopped if label is empty.
+
 ## v0.9.0 / 2017-11-19
 ### Added
 - option `showActualPercentages`. #42
