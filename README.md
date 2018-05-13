@@ -51,6 +51,21 @@ new Chart(ctx, {
       // font family, default is defaultFontFamily
       fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
 
+      // draw text shadows under labels, default is false
+      textShadow: true,
+
+      // text shadow intensity, default is 6
+      shadowBlur: 10,
+
+      // text shadow X offset, default is 3
+      shadowOffsetX: -5,
+
+      // text shadow Y offset, default is 3
+      shadowOffsetY: 5,
+
+      // text shadow color, default is 'rgba(0,0,0,0.3)'
+      shadowColor: 'rgba(255,0,0,0.75)',
+
       // draw label in arc, default is false
       arc: true,
 

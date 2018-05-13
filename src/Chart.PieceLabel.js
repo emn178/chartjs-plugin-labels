@@ -179,6 +179,11 @@
       this.fontColor = pieceLabel.fontColor || this.options.defaultFontColor;
       this.fontStyle = pieceLabel.fontStyle || this.options.defaultFontStyle;
       this.fontFamily = pieceLabel.fontFamily || this.options.defaultFontFamily;
+      this.shadowOffsetX = pieceLabel.shadowOffsetX || 3;
+      this.shadowOffsetY = pieceLabel.shadowOffsetY || 3;
+      this.shadowColor = pieceLabel.shadowColor || 'rgba(0,0,0,0.3)';
+      this.shadowBlur = pieceLabel.shadowBlur || 6;
+      this.textShadow = pieceLabel.textShadow || false;
       this.hasTooltip = chartInstance.tooltip._active && chartInstance.tooltip._active.length;
       this.showZero = pieceLabel.showZero;
       this.overlap = pieceLabel.overlap;
@@ -247,7 +252,18 @@
       ctx.fillStyle = fontColor;
       ctx.textBaseline = 'top';
       ctx.textAlign = 'center';
+
+      if (this.textShadow) {
+        ctx.shadowOffsetX = this.shadowOffsetX;
+        ctx.shadowOffsetY = this.shadowOffsetY;
+        ctx.shadowColor = this.shadowColor;
+        ctx.shadowBlur = this.shadowBlur;
+      }
+
       ctx.fillText(text, position.x, position.y - this.fontSize / 2);
+
+      ctx.shadowBlur = 0;
+      ctx.shadowColor = 'rgba(0,0,0,0)';
     }
   };
 
