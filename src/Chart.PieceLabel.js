@@ -1,7 +1,7 @@
 /**
  * [Chart.PieceLabel.js]{@link https://github.com/emn178/Chart.PieceLabel.js}
  *
- * @version 0.10.0
+ * @version 0.11.0
  * @author Chen, Yi-Cyuan [emn178@gmail.com]
  * @copyright Chen, Yi-Cyuan 2017-2018
  * @license MIT
@@ -97,7 +97,7 @@
       var position, innerRadius, arcOffset;
       if (this.position === 'outside' || this.position === 'border') {
         innerRadius = view.outerRadius / 2;
-        var rangeFromCentre, offset = this.fontSize + 2,
+        var rangeFromCentre, offset = this.fontSize + this.textMargin,
           centreAngle = view.startAngle + ((view.endAngle - view.startAngle) / 2);
         if (this.position === 'border') {
           rangeFromCentre = (view.outerRadius - innerRadius) / 2 + innerRadius;
@@ -189,6 +189,7 @@
       this.overlap = pieceLabel.overlap;
       this.images = pieceLabel.images || [];
       this.outsidePadding = pieceLabel.outsidePadding || 2;
+      this.textMargin = pieceLabel.textMargin || 2;
       this.showActualPercentages = pieceLabel.showActualPercentages || false;
       return true;
     } else {

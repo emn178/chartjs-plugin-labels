@@ -1,5 +1,10 @@
 # Change Log
 
+## v0.11.0 / 2018-06-10
+### Added
+- option `textMargin`. #54
+- option text shadow. #56
+
 ## v0.10.0 / 2017-11-19
 ### Added
 - option `outsidePadding`. #42

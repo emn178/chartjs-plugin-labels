@@ -90,7 +90,11 @@ new Chart(ctx, {
 
       // add padding when position is `outside`
       // default is 2
-      outsidePadding: 4
+      outsidePadding: 4,
+
+      // add margin of text when position is `outside` or `border`
+      // default is 2
+      textMargin: 4
     }
   }
 });
