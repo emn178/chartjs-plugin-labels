@@ -109,6 +109,7 @@
           y: view.y + (Math.sin(centreAngle) * rangeFromCentre)
         };
         if (this.position === 'outside') {
+          offset += (this.measureText(text).width / 2);
           if (position.x < view.x) {
             position.x -= offset;
           } else {
