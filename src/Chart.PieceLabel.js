@@ -1,7 +1,7 @@
 /**
  * [Chart.PieceLabel.js]{@link https://github.com/emn178/Chart.PieceLabel.js}
  *
- * @version 0.11.0
+ * @version 0.12.0
  * @author Chen, Yi-Cyuan [emn178@gmail.com]
  * @copyright Chen, Yi-Cyuan 2017-2018
  * @license MIT
@@ -102,6 +102,9 @@
         if (this.position === 'border') {
           rangeFromCentre = (view.outerRadius - innerRadius) / 2 + innerRadius;
         } else if (this.position === 'outside') {
+          if (!this.arc) {
+            offset = this.textMargin;
+          }
           rangeFromCentre = (view.outerRadius - innerRadius) + innerRadius + offset;
         }
         position = {
@@ -109,6 +112,9 @@
           y: view.y + (Math.sin(centreAngle) * rangeFromCentre)
         };
         if (this.position === 'outside') {
+          if (!this.arc) {
+            offset += (this.measureText(text).width / 2);
+          }
           if (position.x < view.x) {
             position.x -= offset;
           } else {
@@ -315,15 +321,23 @@
     ctx.restore();
   };
 
-  Chart.pluginService.register({
-    beforeInit: function(chartInstance) {
+  function init(chartInstance) {
+    if (chartInstance.options.pieceLabel && !chartInstance.pieceLabel) {
       chartInstance.pieceLabel = new PieceLabel();
-    },
+    }
+    return chartInstance.pieceLabel;
+  }
+
+  Chart.pluginService.register({
     beforeDatasetsUpdate: function (chartInstance) {
-      chartInstance.pieceLabel.beforeDatasetsUpdate(chartInstance);
+      if (init(chartInstance)) {
+        chartInstance.pieceLabel.beforeDatasetsUpdate(chartInstance);
+      }
     },
     afterDatasetsDraw: function (chartInstance) {
-      chartInstance.pieceLabel.afterDatasetsDraw(chartInstance);
+      if (init(chartInstance)) {
+        chartInstance.pieceLabel.afterDatasetsDraw(chartInstance);
+      }
     }
   });
 })();

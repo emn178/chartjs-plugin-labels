@@ -121,6 +121,14 @@ new Chart(ctx, {
 }
 ```
 
+### For Angular 2+
+If you use [angular2-chartjs](https://github.com/emn178/angular2-chartjs), you can import by this:
+```
+import { ChartModule } from 'angular2-chartjs';
+import 'chart.piecelabel.js';
+```
+
+
 ## License
 The project is released under the [MIT license](http://www.opensource.org/licenses/MIT).
 

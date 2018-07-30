@@ -1,5 +1,10 @@
 # Change Log
 
+## v0.12.0 / 2018-07-30
+### Fixed
+- outside label position. #45, #61
+- 'afterDatasetsDraw' of undefined #60
+
 ## v0.11.0 / 2018-06-10
 ### Added
 - option `textMargin`. #54
