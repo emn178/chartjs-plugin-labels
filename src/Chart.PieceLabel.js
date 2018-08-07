@@ -1,7 +1,7 @@
 /**
  * [Chart.PieceLabel.js]{@link https://github.com/emn178/Chart.PieceLabel.js}
  *
- * @version 0.12.0
+ * @version 0.13.0
  * @author Chen, Yi-Cyuan [emn178@gmail.com]
  * @copyright Chen, Yi-Cyuan 2017-2018
  * @license MIT
@@ -152,8 +152,8 @@
         var drawable, mertrics = this.measureText(text),
           left = position.x - mertrics.width / 2,
           right = position.x + mertrics.width / 2,
-          top = position.y - this.fontSize / 2,
-          bottom = position.y + this.fontSize / 2;
+          top = position.y - mertrics.height / 2,
+          bottom = position.y + mertrics.height / 2;
         if (this.overlap) {
           drawable = true;
         } else if (this.position === 'outside') {
@@ -247,7 +247,15 @@
     if (typeof text === 'object') {
       return { width: text.width, height: text.height };
     } else {
-      return this.ctx.measureText(text);
+      var width = 0;
+      var lines = text.split('\n');
+      for (var i = 0; i < lines.length; ++i) {
+        var result = this.ctx.measureText(lines[i]);
+        if (result.width > width) {
+          width = result.width;
+        }
+      }
+      return { width: width, height: this.fontSize * lines.length };
     }
   };
 
@@ -256,6 +264,7 @@
     if (typeof text === 'object') {
       ctx.drawImage(text, position.x - text.width / 2, position.y - text.height / 2, text.width, text.height);
     } else {
+      ctx.save();
       ctx.fillStyle = fontColor;
       ctx.textBaseline = 'top';
       ctx.textAlign = 'center';
@@ -267,10 +276,12 @@
         ctx.shadowBlur = this.shadowBlur;
       }
 
-      ctx.fillText(text, position.x, position.y - this.fontSize / 2);
-
-      ctx.shadowBlur = 0;
-      ctx.shadowColor = 'rgba(0,0,0,0)';
+      var lines = text.split('\n');
+      for (var i = 0; i < lines.length; i++) {
+        var y = position.y - this.fontSize / 2 * lines.length + this.fontSize * i;
+        ctx.fillText(lines[i], position.x, y);
+      }
+      ctx.restore();
     }
   };
 
@@ -304,14 +315,33 @@
 
     if (typeof str === 'string') {
       ctx.rotate(startAngle);
-      for (var i = 0; i < str.length; i++) {
-        var char = str.charAt(i);
-        mertrics = ctx.measureText(char);
+      var lines = str.split('\n'), max = 0, widths = [], offset = 0;
+      if (this.position === 'border') {
+        offset = (lines.length - 1) * this.fontSize / 2;
+      }
+      for (var j = 0; j < lines.length; ++j) {
+        var mertrics = ctx.measureText(lines[j]);
+        if (mertrics.width > max) {
+          max = mertrics.width;
+        }
+        widths.push(mertrics.width);
+      }
+      for (var j = 0; j < lines.length; ++j) {
+        var line = lines[j];
+        var y = (lines.length - 1 - j) * -this.fontSize + offset;
         ctx.save();
-        ctx.translate(0, -1 * radius);
-        ctx.fillText(char, 0, 0);
+        var padding = (max - widths[j]) / 2;
+        ctx.rotate(padding / radius);
+        for (var i = 0; i < line.length; i++) {
+          var char = line.charAt(i);
+          mertrics = ctx.measureText(char);
+          ctx.save();
+          ctx.translate(0, -1 * radius);
+          ctx.fillText(char, 0, y);
+          ctx.restore();
+          ctx.rotate(mertrics.width / radius);
+        }
         ctx.restore();
-        ctx.rotate(mertrics.width / radius);
       }
     } else {
       ctx.rotate((origStartAngle + endAngle) / 2);

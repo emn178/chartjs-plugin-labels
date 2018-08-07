@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.13.0 / 2018-08-07
+### Added
+- multiple lines support. #31
+
 ## v0.12.0 / 2018-07-30
 ### Fixed
 - outside label position. #45, #61
