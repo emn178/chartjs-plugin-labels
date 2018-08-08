@@ -1,7 +1,7 @@
 /**
  * [Chart.PieceLabel.js]{@link https://github.com/emn178/Chart.PieceLabel.js}
  *
- * @version 0.13.0
+ * @version 0.14.0
  * @author Chen, Yi-Cyuan [emn178@gmail.com]
  * @copyright Chen, Yi-Cyuan 2017-2018
  * @license MIT
@@ -12,22 +12,27 @@
     return;
   }
 
+  if (!Array.isArray) {
+    Array.isArray = function (obj) {
+      return Object.prototype.toString.call(obj) === '[object Array]';
+    };
+  }
+
   function PieceLabel() {
     this.drawDataset = this.drawDataset.bind(this);
   }
 
-  PieceLabel.prototype.beforeDatasetsUpdate = function (chartInstance) {
-    if (this.parseOptions(chartInstance) && this.position === 'outside') {
+  PieceLabel.prototype.beforeDatasetsUpdate = function (chartInstance, index) {
+    this.parseOptions(chartInstance, index);
+    if (this.position === 'outside') {
       var padding = this.fontSize * 1.5 + this.outsidePadding;
       chartInstance.chartArea.top += padding;
       chartInstance.chartArea.bottom -= padding;
     }
   };
 
-  PieceLabel.prototype.afterDatasetsDraw = function (chartInstance) {
-    if (!this.parseOptions(chartInstance)) {
-      return;
-    }
+  PieceLabel.prototype.afterDatasetsDraw = function (chartInstance, index) {
+    this.parseOptions(chartInstance, index);
     this.labelBounds = [];
     chartInstance.config.data.datasets.forEach(this.drawDataset);
   };
@@ -170,37 +175,35 @@
     }
   };
 
-  PieceLabel.prototype.parseOptions = function (chartInstance) {
+  PieceLabel.prototype.parseOptions = function (chartInstance, index) {
     var pieceLabel = chartInstance.options.pieceLabel;
-    if (pieceLabel) {
-      this.chartInstance = chartInstance;
-      this.ctx = chartInstance.chart.ctx;
-      this.options = chartInstance.config.options;
-      this.render = pieceLabel.render || pieceLabel.mode;
-      this.position = pieceLabel.position || 'default';
-      this.arc = pieceLabel.arc;
-      this.format = pieceLabel.format;
-      this.precision = pieceLabel.precision || 0;
-      this.fontSize = pieceLabel.fontSize || this.options.defaultFontSize;
-      this.fontColor = pieceLabel.fontColor || this.options.defaultFontColor;
-      this.fontStyle = pieceLabel.fontStyle || this.options.defaultFontStyle;
-      this.fontFamily = pieceLabel.fontFamily || this.options.defaultFontFamily;
-      this.shadowOffsetX = pieceLabel.shadowOffsetX || 3;
-      this.shadowOffsetY = pieceLabel.shadowOffsetY || 3;
-      this.shadowColor = pieceLabel.shadowColor || 'rgba(0,0,0,0.3)';
-      this.shadowBlur = pieceLabel.shadowBlur || 6;
-      this.textShadow = pieceLabel.textShadow || false;
-      this.hasTooltip = chartInstance.tooltip._active && chartInstance.tooltip._active.length;
-      this.showZero = pieceLabel.showZero;
-      this.overlap = pieceLabel.overlap;
-      this.images = pieceLabel.images || [];
-      this.outsidePadding = pieceLabel.outsidePadding || 2;
-      this.textMargin = pieceLabel.textMargin || 2;
-      this.showActualPercentages = pieceLabel.showActualPercentages || false;
-      return true;
-    } else {
-      return false;
+    if (Array.isArray(pieceLabel)) {
+      pieceLabel = pieceLabel[index];
     }
+    this.chartInstance = chartInstance;
+    this.ctx = chartInstance.chart.ctx;
+    this.options = chartInstance.config.options;
+    this.render = pieceLabel.render || pieceLabel.mode;
+    this.position = pieceLabel.position || 'default';
+    this.arc = pieceLabel.arc;
+    this.format = pieceLabel.format;
+    this.precision = pieceLabel.precision || 0;
+    this.fontSize = pieceLabel.fontSize || this.options.defaultFontSize;
+    this.fontColor = pieceLabel.fontColor || this.options.defaultFontColor;
+    this.fontStyle = pieceLabel.fontStyle || this.options.defaultFontStyle;
+    this.fontFamily = pieceLabel.fontFamily || this.options.defaultFontFamily;
+    this.shadowOffsetX = pieceLabel.shadowOffsetX || 3;
+    this.shadowOffsetY = pieceLabel.shadowOffsetY || 3;
+    this.shadowColor = pieceLabel.shadowColor || 'rgba(0,0,0,0.3)';
+    this.shadowBlur = pieceLabel.shadowBlur || 6;
+    this.textShadow = pieceLabel.textShadow || false;
+    this.hasTooltip = chartInstance.tooltip._active && chartInstance.tooltip._active.length;
+    this.showZero = pieceLabel.showZero;
+    this.overlap = pieceLabel.overlap;
+    this.images = pieceLabel.images || [];
+    this.outsidePadding = pieceLabel.outsidePadding || 2;
+    this.textMargin = pieceLabel.textMargin || 2;
+    this.showActualPercentages = pieceLabel.showActualPercentages || false;
   };
 
   PieceLabel.prototype.checkTextBound = function (left, right, top, bottom) {
@@ -352,22 +355,37 @@
   };
 
   function init(chartInstance) {
-    if (chartInstance.options.pieceLabel && !chartInstance.pieceLabel) {
-      chartInstance.pieceLabel = new PieceLabel();
+    if (chartInstance.options.pieceLabel) {
+      var count = 1;
+      if (Array.isArray(chartInstance.options.pieceLabel)) {
+        count = chartInstance.options.pieceLabel.length;
+      }
+      if (!chartInstance.pieceLabel || count !== chartInstance.pieceLabel.length) {
+        chartInstance.pieceLabel = [];
+        for (var i = 0; i < count; ++i) {
+          chartInstance.pieceLabel.push(new PieceLabel());
+        }
+      }
+    } else if (chartInstance.pieceLabel) {
+      delete chartInstance.pieceLabel;
     }
     return chartInstance.pieceLabel;
   }
 
+  function execute(chartInstance, method) {
+    if (init(chartInstance)) {
+      for (var i = 0; i < chartInstance.pieceLabel.length; ++i) {
+        chartInstance.pieceLabel[i][method](chartInstance, i);
+      }
+    }
+  }
+
   Chart.pluginService.register({
     beforeDatasetsUpdate: function (chartInstance) {
-      if (init(chartInstance)) {
-        chartInstance.pieceLabel.beforeDatasetsUpdate(chartInstance);
-      }
+      execute(chartInstance, 'beforeDatasetsUpdate');
     },
     afterDatasetsDraw: function (chartInstance) {
-      if (init(chartInstance)) {
-        chartInstance.pieceLabel.afterDatasetsDraw(chartInstance);
-      }
+      execute(chartInstance, 'afterDatasetsDraw');
     }
   });
 })();

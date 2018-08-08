@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.14.0 / 2018-08-08
+### Added
+- multiple options support. #18
+
 ## v0.13.0 / 2018-08-07
 ### Added
 - multiple lines support. #31

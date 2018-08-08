@@ -234,6 +234,29 @@
           </pre>
         </div>
       </div>
+      <div class="row">
+        <div class="chart-wrapper">
+          <canvas id="pie-canvas11"></canvas>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="doughnut-canvas11"></canvas>
+        </div>
+        <div class="code">
+          <pre class="brush: js">
+            {
+              pieceLabel: [
+                {
+                  render: 'label',
+                  position: 'outside'
+                },
+                {
+                  render: 'percentage'
+                }
+              ]
+            }
+          </pre>
+        </div>
+      </div>
     </div>
   </div>
   <div id="footer">
@@ -381,6 +404,19 @@
             { src: 'usa.png', width: 32, height: 22 }
           ]
         }
+      });
+      createChart(type + '-canvas11', type, {
+        responsive: true,
+        maintainAspectRatio: false,
+        pieceLabel: [
+          {
+            render: 'label',
+            position: 'outside'
+          },
+          {
+            render: 'percentage'
+          }
+        ]
       });
     });
   </script>

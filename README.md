@@ -121,6 +121,20 @@ new Chart(ctx, {
 }
 ```
 
+Support multiple options, eg.
+
+```JavaScript
+pieceLabel: [
+  {
+    render: 'label',
+    position: 'outside'
+  },
+  {
+    render: 'value'
+  }
+]
+```
+
 ### For Angular 2+
 If you use [angular2-chartjs](https://github.com/emn178/angular2-chartjs), you can import by this:
 ```
