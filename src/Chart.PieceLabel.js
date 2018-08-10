@@ -91,6 +91,8 @@
 
         if (typeof text === 'object') {
           text = this.loadImage(text);
+        } else {
+          text = text.toString();
         }
       }
       if (!text) {
