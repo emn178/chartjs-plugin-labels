@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.14.1 / 2018-08-12
+### Fixed
+- text.split is not a function.
+
 ## v0.14.0 / 2018-08-08
 ### Added
 - multiple options support. #18

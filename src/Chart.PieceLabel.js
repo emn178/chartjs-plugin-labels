@@ -1,7 +1,7 @@
 /**
  * [Chart.PieceLabel.js]{@link https://github.com/emn178/Chart.PieceLabel.js}
  *
- * @version 0.14.0
+ * @version 0.14.1
  * @author Chen, Yi-Cyuan [emn178@gmail.com]
  * @copyright Chen, Yi-Cyuan 2017-2018
  * @license MIT
@@ -89,7 +89,9 @@
           index: i
         });
 
-        if (typeof text === 'object') {
+        if (text === null || text === undefined) {
+          text = '';
+        } else if (typeof text === 'object') {
           text = this.loadImage(text);
         } else {
           text = text.toString();
@@ -383,6 +385,7 @@
   }
 
   Chart.pluginService.register({
+    name: 'PieceLabel',
     beforeDatasetsUpdate: function (chartInstance) {
       execute(chartInstance, 'beforeDatasetsUpdate');
     },
