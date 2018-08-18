@@ -257,6 +257,30 @@
           </pre>
         </div>
       </div>
+      <div class="row">
+        <h2>Polar Area</h2>
+        <div class="chart-wrapper">
+          <canvas id="polarArea-canvas1"></canvas>
+        </div>
+        <div class="code">
+          <pre class="brush: js">
+            {
+              pieceLabel: [
+                {
+                  render: 'label',
+                  fontColor: '#000',
+                  position: 'outside'
+                },
+                {
+                  render: 'percentage',
+                  fontColor: ['green', 'white', 'red'],
+                  precision: 2
+                }
+              ]
+            }
+          </pre>
+        </div>
+      </div>
     </div>
   </div>
   <div id="footer">
@@ -418,6 +442,22 @@
           }
         ]
       });
+    });
+    createChart('polarArea-canvas1', 'polarArea', {
+      responsive: true,
+      maintainAspectRatio: false,
+      pieceLabel: [
+        {
+          render: 'label',
+          fontColor: '#000',
+          position: 'outside'
+        },
+        {
+          render: 'percentage',
+          fontColor: ['green', 'white', 'red'],
+          precision: 2
+        }
+      ]
     });
   </script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shCore.css" rel="stylesheet">

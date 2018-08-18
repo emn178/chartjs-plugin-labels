@@ -1,5 +1,12 @@
 # Change Log
 
+## v0.15.0 / 2018-08-18
+### Fixed
+- Label possition conflict when using doughnutlabel plugin. #67
+
+### Added
+- polarArea suuport. #37
+
 ## v0.14.1 / 2018-08-12
 ### Fixed
 - text.split is not a function.

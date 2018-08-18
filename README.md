@@ -1,5 +1,5 @@
 # Chart.PieceLabel.js
-PieceLabel plugin for Chart.js.
+Chart.js plugin to display labels on pie, doughnut and polar area chart.
 
 ## Demo
 [Demo](http://emn178.github.io/Chart.PieceLabel.js/samples/demo/)
@@ -141,7 +141,6 @@ If you use [angular2-chartjs](https://github.com/emn178/angular2-chartjs), you c
 import { ChartModule } from 'angular2-chartjs';
 import 'chart.piecelabel.js';
 ```
-
 
 ## License
 The project is released under the [MIT license](http://www.opensource.org/licenses/MIT).

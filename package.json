@@ -1,7 +1,7 @@
 {
   "name": "chart.piecelabel.js",
-  "version": "0.14.1",
-  "description": "PieceLabel plugin for Chart.js",
+  "version": "0.15.0",
+  "description": "Chart.js plugin to display labels on pie, doughnut and polar area chart.",
   "main": "src/Chart.PieceLabel.js",
   "dependencies": {
     "chart.js": "^2.1.5"

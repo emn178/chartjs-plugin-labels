@@ -1,7 +1,7 @@
 /**
  * [Chart.PieceLabel.js]{@link https://github.com/emn178/Chart.PieceLabel.js}
  *
- * @version 0.14.1
+ * @version 0.15.0
  * @author Chen, Yi-Cyuan [emn178@gmail.com]
  * @copyright Chen, Yi-Cyuan 2017-2018
  * @license MIT
@@ -41,13 +41,13 @@
     var ctx = this.ctx;
     var chartInstance = this.chartInstance;
     var meta = dataset._meta[Object.keys(dataset._meta)[0]];
-    var totalPercentage = 0;
+    this.totalPercentage = 0;
+    this.total = null;
     for (var i = 0; i < meta.data.length; i++) {
       var element = meta.data[i],
         view = element._view, text;
 
-      //Skips label creation if value is zero and showZero is set
-      if (view.circumference === 0 && !this.showZero) {
+      if (!this.shouldRenderData(view)) {
         continue;
       }
       switch (this.render) {
@@ -66,17 +66,7 @@
           break;
         case 'percentage':
         default:
-          var percentage = view.circumference / this.options.circumference * 100;
-          percentage = parseFloat(percentage.toFixed(this.precision));
-          if (!this.showActualPercentages) {
-            totalPercentage += percentage;
-            if (totalPercentage > 100) {
-              percentage -= totalPercentage - 100;
-              // After adjusting the percentage, need to trim the numbers after decimal points again, otherwise it may not show
-              // on chart due to very long number after decimal point.
-              percentage = parseFloat(percentage.toFixed(this.precision));
-            }
-          }
+          percentage = this.getPercentage(view, dataset, i);
           text = percentage + '%';
           break;
       }
@@ -103,7 +93,7 @@
       ctx.save();
       ctx.beginPath();
       ctx.font = Chart.helpers.fontString(this.fontSize, this.fontStyle, this.fontFamily);
-      var position, innerRadius, arcOffset;
+      var position, innerRadius, arcOffset = 0;
       if (this.position === 'outside' || this.position === 'border') {
         innerRadius = view.outerRadius / 2;
         var rangeFromCentre, offset = this.fontSize + this.textMargin,
@@ -177,6 +167,37 @@
       }
       ctx.restore();
     }
+  };
+
+  PieceLabel.prototype.shouldRenderData = function (view) {
+    //Skips label creation if value is zero and showZero is set
+    return this.chartInstance.config.type === 'polarArea' ? view.outerRadius !== 0 : view.circumference !== 0 || this.showZero;
+  };
+
+  PieceLabel.prototype.getPercentage = function (view, dataset, index) {
+    var percentage;
+    if (this.chartInstance.config.type === 'polarArea') {
+      if (this.total === null) {
+        this.total = 0;
+        for (var i = 0;i < dataset.data.length; ++i) {
+          this.total += dataset.data[i];
+        }
+      }
+      percentage = dataset.data[index] / this.total * 100;
+    } else {
+      percentage = view.circumference / this.options.circumference * 100;
+    }
+    percentage = parseFloat(percentage.toFixed(this.precision));
+    if (!this.showActualPercentages) {
+      this.totalPercentage += percentage;
+      if (this.totalPercentage > 100) {
+        percentage -= this.totalPercentage - 100;
+        // After adjusting the percentage, need to trim the numbers after decimal points again, otherwise it may not show
+        // on chart due to very long number after decimal point.
+        percentage = parseFloat(percentage.toFixed(this.precision));
+      }
+    }
+    return percentage;
   };
 
   PieceLabel.prototype.parseOptions = function (chartInstance, index) {
@@ -309,6 +330,7 @@
 
     ctx.save();
     ctx.translate(centerX, centerY);
+    ctx.textAlign = 'left';
     var angleSize = endAngle - startAngle;
     startAngle += Math.PI / 2;
     endAngle += Math.PI / 2;
