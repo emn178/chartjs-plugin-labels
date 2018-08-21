@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Chart PieceLabel</title>
+  <title>chartjs-plugin-labels</title>
   <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
-  <script type="text/javascript" src="../../src/Chart.PieceLabel.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
+  <script type="text/javascript" src="../../src/chartjs-plugin-labels.js"></script>
   <script>
     if (location.protocol != 'file:') {
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -21,13 +21,13 @@
 </head>
 <body>
   <div id="header">
-    <h1>Chart PieceLabel</h1>
-    <a href="https://github.com/emn178/Chart.PieceLabel.js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github-camo.global.ssl.fastly.net/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
+    <h1>chartjs-plugin-labels</h1>
+    <a href="https://github.com/emn178/chartjs-plugin-labels"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github-camo.global.ssl.fastly.net/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
   </div>
   <div id="body">
     <div id="description">
       <p>
-        Show label, value or percentage.
+        Chart.js plugin to display labels on pie, doughnut and polar area chart.
       </p>
     </div>
     <div class="charts">
@@ -41,10 +41,7 @@
         <div class="code">
           <pre class="brush: js">
             {
-              legend: {
-                display: false
-              },
-              pieceLabel: {
+              labels: {
                 render: 'label'
               }
             }
@@ -61,7 +58,7 @@
         <div class="code">
           <pre class="brush: js">
             {
-              pieceLabel: {
+              labels: {
                 render: 'percentage',
                 fontColor: ['green', 'white', 'red'],
                 precision: 2
@@ -80,7 +77,7 @@
         <div class="code">
           <pre class="brush: js">
             {
-              pieceLabel: {
+              labels: {
                 render: &#39;percentage&#39;,
                 fontColor: function (data) {
                   var rgb = hexToRgb(data.dataset.backgroundColor[data.index]);
@@ -104,7 +101,7 @@
         <div class="code">
           <pre class="brush: js">
             {
-              pieceLabel: {
+              labels: {
                 render: 'value',
                 fontSize: 14,
                 fontStyle: 'bold',
@@ -125,7 +122,7 @@
         <div class="code">
           <pre class="brush: js">
             {
-              pieceLabel: {
+              labels: {
                 render: function (args) {
                   return '$' + args.value;
                 },
@@ -145,7 +142,7 @@
         <div class="code">
           <pre class="brush: js">
             {
-              pieceLabel: {
+              labels: {
                 render: 'label',
                 arc: true,
                 position: 'border'
@@ -164,7 +161,7 @@
         <div class="code">
           <pre class="brush: js">
             {
-              pieceLabel: {
+              labels: {
                 render: 'label',
                 fontColor: '#000',
                 position: 'outside'
@@ -183,30 +180,11 @@
         <div class="code">
           <pre class="brush: js">
             {
-              pieceLabel: {
+              labels: {
                 render: 'label',
                 arc: true,
                 fontColor: '#000',
                 position: 'outside'
-              }
-            }
-          </pre>
-        </div>
-      </div>
-      <div class="row">
-        <div class="chart-wrapper">
-          <canvas id="pie-canvas9"></canvas>
-        </div>
-        <div class="chart-wrapper">
-          <canvas id="doughnut-canvas9"></canvas>
-        </div>
-        <div class="code">
-          <pre class="brush: js">
-            {
-              pieceLabel: {
-                render: 'label',
-                fontSize: 14,
-                overlap: true
               }
             }
           </pre>
@@ -222,7 +200,7 @@
         <div class="code">
           <pre class="brush: js">
             {
-              pieceLabel: {
+              labels: {
                 render: 'image',
                 images: [
                   { src: 'taiwan.png', width: 32, height: 22 },
@@ -244,7 +222,7 @@
         <div class="code">
           <pre class="brush: js">
             {
-              pieceLabel: [
+              labels: [
                 {
                   render: 'label',
                   position: 'outside'
@@ -265,7 +243,7 @@
         <div class="code">
           <pre class="brush: js">
             {
-              pieceLabel: [
+              labels: [
                 {
                   render: 'label',
                   fontColor: '#000',
@@ -284,7 +262,7 @@
     </div>
   </div>
   <div id="footer">
-    © 2017-2018 Chart.PieceLabel.js Demo
+    © 2017-2018 chartjs-plugin-labels Demo
   </div>
   <script>
     function hexToRgb(hex) {
@@ -332,132 +310,146 @@
         legend: {
           display: false
         },
-        pieceLabel: {
-          render: 'label'
+        plugins: {
+          labels: {
+            render: 'label'
+          }
         }
       });
       createChart(type + '-canvas2', type, {
         responsive: true,
         maintainAspectRatio: false,
-        pieceLabel: {
-          render: 'percentage',
-          fontColor: ['green', 'white', 'red'],
-          precision: 2
+        plugins: {
+          labels: {
+            render: 'percentage',
+            fontColor: ['green', 'white', 'red'],
+            precision: 2
+          }
         }
       });
       createChart(type + '-canvas3', type, {
         responsive: true,
         maintainAspectRatio: false,
-        pieceLabel: {
-          render: 'percentage',
-          fontColor: function (args) {
-            var rgb = hexToRgb(args.dataset.backgroundColor[args.index]);
-            var threshold = 140;
-            var luminance = 0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b;
-            return luminance > threshold ? 'black' : 'white';
-          },
-          precision: 2
+        plugins: {
+          labels: {
+            render: 'percentage',
+            fontColor: function (args) {
+              var rgb = hexToRgb(args.dataset.backgroundColor[args.index]);
+              var threshold = 140;
+              var luminance = 0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b;
+              return luminance > threshold ? 'black' : 'white';
+            },
+            precision: 2
+          }
         }
       });
       createChart(type + '-canvas4', type, {
         responsive: true,
         maintainAspectRatio: false,
-        pieceLabel: {
-          render: 'value',
-          fontSize: 14,
-          fontStyle: 'bold',
-          fontColor: '#000',
-          fontFamily: '"Lucida Console", Monaco, monospace'
+        plugins: {
+          labels: {
+            render: 'value',
+            fontSize: 14,
+            fontStyle: 'bold',
+            fontColor: '#000',
+            fontFamily: '"Lucida Console", Monaco, monospace'
+          }
         }
       });
       createChart(type + '-canvas5', type, {
         responsive: true,
         maintainAspectRatio: false,
-        pieceLabel: {
-          render: function (args) {
-            return '$' + args.value;
-          },
-          arc: true
+        plugins: {
+          labels: {
+            render: function (args) {
+              return '$' + args.value;
+            },
+            arc: true
+          }
         }
       });
       createChart(type + '-canvas6', type, {
         responsive: true,
         maintainAspectRatio: false,
-        pieceLabel: {
-          render: 'label',
-          arc: true,
-          position: 'border'
+        plugins: {
+          labels: {
+            render: 'label',
+            arc: true,
+            position: 'border'
+          }
         }
       });
       createChart(type + '-canvas7', type, {
         responsive: true,
         maintainAspectRatio: false,
-        pieceLabel: {
-          render: 'label',
-          fontColor: '#000',
-          position: 'outside'
+        plugins: {
+          labels: {
+            render: 'label',
+            fontColor: '#000',
+            position: 'outside'
+          }
         }
       });
       createChart(type + '-canvas8', type, {
         responsive: true,
         maintainAspectRatio: false,
-        pieceLabel: {
-          render: 'label',
-          arc: true,
-          fontColor: '#000',
-          position: 'outside'
-        }
-      });
-      createChart(type + '-canvas9', type, {
-        responsive: true,
-        maintainAspectRatio: false,
-        pieceLabel: {
-          render: 'label',
-          fontSize: 14,
-          overlap: true
+        plugins: {
+          labels: {
+            render: 'label',
+            arc: true,
+            fontColor: '#000',
+            position: 'outside'
+          }
         }
       });
       createChart(type + '-canvas10', type, {
         responsive: true,
         maintainAspectRatio: false,
-        pieceLabel: {
-          render: 'image',
-          images: [
-            { src: 'taiwan.png', width: 32, height: 22 },
-            { src: 'jpan.png', width: 32, height: 22 },
-            { src: 'usa.png', width: 32, height: 22 }
-          ]
+        plugins: {
+          labels: {
+            render: 'image',
+            images: [
+              { src: 'taiwan.png', width: 32, height: 22 },
+              { src: 'jpan.png', width: 32, height: 22 },
+              { src: 'usa.png', width: 32, height: 22 }
+            ]
+          }
         }
       });
       createChart(type + '-canvas11', type, {
         responsive: true,
         maintainAspectRatio: false,
-        pieceLabel: [
-          {
-            render: 'label',
-            position: 'outside'
-          },
-          {
-            render: 'percentage'
-          }
-        ]
+        plugins: {
+          labels: [
+            {
+              render: 'label',
+              position: 'outside'
+            },
+            {
+              render: 'percentage'
+            }
+          ]
+        }
       });
     });
     createChart('polarArea-canvas1', 'polarArea', {
       responsive: true,
       maintainAspectRatio: false,
-      pieceLabel: [
-        {
-          render: 'label',
-          fontColor: '#000',
-          position: 'outside'
-        },
-        {
-          render: 'percentage',
-          fontColor: ['green', 'white', 'red'],
-          precision: 2
-        }
-      ]
+      plugins: {
+        labels: [
+          {
+            render: 'label',
+            fontColor: '#000',
+            position: 'outside'
+          },
+          {
+            render: 'percentage',
+            fontColor: ['green', 'white', 'red'],
+            overlap: false,
+            precision: 2
+          }
+        ]
+      }
     });
   </script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shCore.css" rel="stylesheet">

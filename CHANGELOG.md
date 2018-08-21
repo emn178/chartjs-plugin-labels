@@ -1,5 +1,18 @@
 # Change Log
 
+## v1.0.0 / 2018-08-21
+### Changed
+- package name and usage follows Chart.js plugin rules. #66
+- option `overlap` default true.
+- require Chart.js 2.6.0+
+
+### Removed
+- option `mode`
+- option `format`
+
+### Improve
+- refactor code structure.
+
 ## v0.15.0 / 2018-08-18
 ### Fixed
 - Label possition conflict when using doughnutlabel plugin. #67
@@ -67,8 +80,8 @@
 - option `mode` rename to `render`, `mode` still works.
 
 ### Deprecated
-- options `mode`.
-- options `format`.
+- option `mode`.
+- option `format`.
 
 ## v0.6.0 / 2017-07-07
 ### Added

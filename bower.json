@@ -1,12 +1,12 @@
 {
-  "name": "Chart.PieceLabel.js",
-  "version": "0.15.0",
-  "main": ["src/Chart.PieceLabel.js"],
+  "name": "chartjs-plugin-labels",
+  "version": "1.0.0",
+  "main": ["src/chartjs-plugin-labels.js"],
   "ignore": [
     "samples",
     "tests"
   ],
   "dependencies": {
-    "chart.js": ">= 2.1.5"
+    "chart.js": ">= 2.6.0"
   }
 }

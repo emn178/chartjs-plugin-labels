@@ -1,14 +1,14 @@
 {
-  "name": "chart.piecelabel.js",
-  "version": "0.15.0",
+  "name": "chartjs-plugin-labels",
+  "version": "1.0.0",
   "description": "Chart.js plugin to display labels on pie, doughnut and polar area chart.",
-  "main": "src/Chart.PieceLabel.js",
-  "dependencies": {
-    "chart.js": "^2.1.5"
+  "main": "src/chartjs-plugin-labels.js",
+  "peerDependencies": {
+    "chart.js": "^2.6.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/emn178/Chart.PieceLabel.js.git"
+    "url": "https://github.com/emn178/chartjs-plugin-labels.git"
   },
   "keywords": [
     "chart",
@@ -16,8 +16,8 @@
   ],
   "license": "MIT",
   "author": "Chen, Yi-Cyuan <emn178@gmail.com>",
-  "homepage": "https://github.com/emn178/Chart.PieceLabel.js",
+  "homepage": "https://github.com/emn178/chartjs-plugin-labels",
   "bugs": {
-    "url": "https://github.com/emn178/Chart.PieceLabel.js/issues"
+    "url": "https://github.com/emn178/chartjs-plugin-labels/issues"
   }
 }
