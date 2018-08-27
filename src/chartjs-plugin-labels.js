@@ -1,7 +1,7 @@
 /**
  * [chartjs-plugin-labels]{@link https://github.com/emn178/chartjs-plugin-labels}
  *
- * @version 1.0.0
+ * @version 1.0.1
  * @author Chen, Yi-Cyuan [emn178@gmail.com]
  * @copyright Chen, Yi-Cyuan 2017-2018
  * @license MIT
@@ -14,13 +14,14 @@
     return;
   }
 
+  var SUPPORTED_TYPES = new Set(['pie', 'doughnut', 'polarArea']);
+
   function Label() {
     this.renderToDataset = this.renderToDataset.bind(this);
   }
 
-  Label.prototype.setup = function (chart, args, options) {
+  Label.prototype.setup = function (chart, options) {
     this.chart = chart;
-    this.elements = args.meta.data;
     this.ctx = chart.ctx;
     var chartOptions = chart.config.options;
     this.options = Object.assign({
@@ -39,11 +40,6 @@
       textMargin: 2,
       overlap: true
     }, options);
-    if (this.options.position === 'outside') {
-      var padding = this.options.fontSize * 1.5 + this.options.outsidePadding;
-      chart.chartArea.top += padding;
-      chart.chartArea.bottom -= padding;
-    }
   };
 
   Label.prototype.render = function () {
@@ -68,14 +64,15 @@
     if (!label) {
       return;
     }
-    var renderInfo = this.getRenderInfo(element, label);
-    if (!this.drawable(element, label, renderInfo)) {
-      return;
-    }
     var ctx = this.ctx;
     ctx.save();
-    ctx.beginPath();
     ctx.font = Chart.helpers.fontString(this.options.fontSize, this.options.fontStyle, this.options.fontFamily);
+    var renderInfo = this.getRenderInfo(element, label);
+    if (!this.drawable(element, label, renderInfo)) {
+      ctx.restore();
+      return;
+    }
+    ctx.beginPath();
     ctx.fillStyle = this.getFontColor(dataset, element, index);
     this.renderLabel(label, renderInfo);
     ctx.restore();
@@ -377,21 +374,48 @@
 
   Chart.plugins.register({
     id: 'labels',
-    afterDatasetUpdate: function (chart, args, options) {
+    beforeDatasetsUpdate: function (chart, options) {
+      if (!SUPPORTED_TYPES.has(chart.config.type)) {
+        return;
+      }
       if (!Array.isArray(options)) {
         options = [options];
       }
       var count = options.length;
       if (!chart._labels || count !== chart._labels.length) {
         chart._labels = options.map(function () {
-          return new Label()
+          return new Label();
         });
       }
+      var someOutside = false, maxPadding = 0;
       for (var i = 0; i < count; ++i) {
-        chart._labels[i].setup(chart, args, options[i]);
+        var label = chart._labels[i];
+        label.setup(chart, options[i]);
+        if (label.options.position === 'outside') {
+          someOutside = true;
+          var padding = label.options.fontSize * 1.5 + label.options.outsidePadding;
+          if (padding > maxPadding) {
+            maxPadding = padding;
+          }
+        }
+      }
+      if (someOutside) {
+        chart.chartArea.top += maxPadding;
+        chart.chartArea.bottom -= maxPadding;
       }
     },
+    afterDatasetUpdate: function (chart, args, options) {
+      if (!SUPPORTED_TYPES.has(chart.config.type)) {
+        return;
+      }
+      chart._labels.forEach(function (label) {
+        label.elements = args.meta.data;
+      });
+    },
     afterDatasetsDraw: function (chart) {
+      if (!SUPPORTED_TYPES.has(chart.config.type)) {
+        return;
+      }
       chart._labels.forEach(function (label) {
         label.render();
       });

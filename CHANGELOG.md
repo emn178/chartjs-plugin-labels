@@ -1,5 +1,10 @@
 # Change Log
 
+## v1.0.1 / 2018-08-27
+### Fixed
+- tries to render labels on line-chart #70
+- reop: Label possition conflict when using doughnutlabel plugin. #67
+
 ## v1.0.0 / 2018-08-21
 ### Changed
 - package name and usage follows Chart.js plugin rules. #66
