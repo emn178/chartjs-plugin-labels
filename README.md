@@ -69,13 +69,16 @@ new Chart(ctx, {
         shadowColor: 'rgba(255,0,0,0.75)',
 
         // draw label in arc, default is false
+        // bar chart ignores this
         arc: true,
 
         // position to draw label, available value is 'default', 'border' and 'outside'
+        // bar chart ignores this
         // default is 'default'
         position: 'default',
 
         // draw label even it's overlap, default is true
+        // bar chart ignores this
         overlap: true,
 
         // show the real calculated percentages from the values and don't apply the additional logic to fit the percentages to 100 in total, default is false

@@ -1,7 +1,7 @@
 /**
  * [chartjs-plugin-labels]{@link https://github.com/emn178/chartjs-plugin-labels}
  *
- * @version 1.0.1
+ * @version 1.1.0
  * @author Chen, Yi-Cyuan [emn178@gmail.com]
  * @copyright Chen, Yi-Cyuan 2017-2018
  * @license MIT
@@ -14,7 +14,30 @@
     return;
   }
 
-  var SUPPORTED_TYPES = new Set(['pie', 'doughnut', 'polarArea']);
+  if (typeof Object.assign != 'function') {
+    Object.assign = function (target, varArgs) {
+      if (target == null) {
+        throw new TypeError('Cannot convert undefined or null to object');
+      }
+      var to = Object(target);
+      for (var index = 1; index < arguments.length; index++) {
+        var nextSource = arguments[index];
+        if (nextSource != null) {
+          for (var nextKey in nextSource) {
+            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+              to[nextKey] = nextSource[nextKey];
+            }
+          }
+        }
+      }
+      return to;
+    };
+  }
+
+  var SUPPORTED_TYPES = {};
+  ['pie', 'doughnut', 'polarArea', 'bar'].forEach(function (t) {
+    SUPPORTED_TYPES[t] = true;
+  });
 
   function Label() {
     this.renderToDataset = this.renderToDataset.bind(this);
@@ -23,6 +46,8 @@
   Label.prototype.setup = function (chart, options) {
     this.chart = chart;
     this.ctx = chart.ctx;
+    this.args = {};
+    this.barTotal = {};
     var chartOptions = chart.config.options;
     this.options = Object.assign({
       position: 'default',
@@ -40,6 +65,11 @@
       textMargin: 2,
       overlap: true
     }, options);
+    if (chart.config.type === 'bar') {
+      this.options.position = 'default';
+      this.options.arc = false;
+      this.options.overlap = true;
+    }
   };
 
   Label.prototype.render = function () {
@@ -47,16 +77,17 @@
     this.chart.data.datasets.forEach(this.renderToDataset);
   };
 
-  Label.prototype.renderToDataset = function (dataset) {
+  Label.prototype.renderToDataset = function (dataset, index) {
     this.totalPercentage = 0;
     this.total = null;
-    this.elements.forEach(function (element, index) {
-      this.renderToElement(dataset, element, index);
+    var arg = this.args[index];
+    arg.meta.data.forEach(function (element, index) {
+      this.renderToElement(dataset, arg, element, index);
     }.bind(this));
   };
 
-  Label.prototype.renderToElement = function (dataset, element, index) {
-    if (!this.shouldRenderToElement(element._view)) {
+  Label.prototype.renderToElement = function (dataset, arg, element, index) {
+    if (!this.shouldRenderToElement(arg.meta, element)) {
       return;
     }
     this.percentage = null;
@@ -151,8 +182,11 @@
     ctx.restore();
   };
 
-  Label.prototype.shouldRenderToElement = function (view) {
-    return this.options.showZero || this.chart.config.type === 'polarArea' ? view.outerRadius !== 0 : view.circumference !== 0;
+  Label.prototype.shouldRenderToElement = function (meta, element) {
+    return !meta.hidden && !element.hidden && (
+      this.options.showZero ||
+      this.chart.config.type === 'polarArea' ? element._view.outerRadius !== 0 : element._view.circumference !== 0
+    );
   };
 
   Label.prototype.getLabel = function (dataset, element, index) {
@@ -220,15 +254,29 @@
         }
       }
       percentage = dataset.data[index] / this.total * 100;
+    } else if (this.chart.config.type === 'bar') {
+      if (this.barTotal[index] === undefined) {
+        this.barTotal[index] = 0;
+        for (var i = 0;i < this.chart.data.datasets.length; ++i) {
+          this.barTotal[index] += this.chart.data.datasets[i].data[index];
+        }
+      }
+      percentage = dataset.data[index] / this.barTotal[index] * 100;
     } else {
       percentage = element._view.circumference / this.chart.config.options.circumference * 100;
     }
     percentage = parseFloat(percentage.toFixed(this.options.precision));
     if (!this.options.showActualPercentages) {
+      if (this.chart.config.type === 'bar') {
+        this.totalPercentage = this.barTotalPercentage[index] || 0;
+      }
       this.totalPercentage += percentage;
       if (this.totalPercentage > 100) {
         percentage -= this.totalPercentage - 100;
         percentage = parseFloat(percentage.toFixed(this.options.precision));
+      }
+      if (this.chart.config.type === 'bar') {
+        this.barTotalPercentage[index] = this.totalPercentage
       }
     }
     this.percentage = percentage;
@@ -236,7 +284,11 @@
   };
 
   Label.prototype.getRenderInfo = function (element, label) {
-    return this.options.arc ? this.getArcRenderInfo(element, label) : this.getBaseRenderInfo(element, label);
+    if (this.chart.config.type === 'bar') {
+      return this.getBarRenderInfo(element, label);
+    } else {
+      return this.options.arc ? this.getArcRenderInfo(element, label) : this.getBaseRenderInfo(element, label);
+    }
   };
 
   Label.prototype.getBaseRenderInfo = function (element, label) {
@@ -286,6 +338,12 @@
       totalAngle: totalAngle,
       view: view
     }
+  };
+
+  Label.prototype.getBarRenderInfo = function (element, label) {
+    var renderInfo = element.tooltipPosition();
+    renderInfo.y -= this.measureLabel(label).height / 2 + this.options.textMargin;
+    return renderInfo;
   };
 
   Label.prototype.drawable = function (element, label, renderInfo) {
@@ -375,7 +433,7 @@
   Chart.plugins.register({
     id: 'labels',
     beforeDatasetsUpdate: function (chart, options) {
-      if (!SUPPORTED_TYPES.has(chart.config.type)) {
+      if (!SUPPORTED_TYPES[chart.config.type]) {
         return;
       }
       if (!Array.isArray(options)) {
@@ -405,15 +463,23 @@
       }
     },
     afterDatasetUpdate: function (chart, args, options) {
-      if (!SUPPORTED_TYPES.has(chart.config.type)) {
+      if (!SUPPORTED_TYPES[chart.config.type]) {
         return;
       }
       chart._labels.forEach(function (label) {
-        label.elements = args.meta.data;
+        label.args[args.index] = args;
+      });
+    },
+    beforeDraw: function (chart) {
+      if (!SUPPORTED_TYPES[chart.config.type]) {
+        return;
+      }
+      chart._labels.forEach(function (label) {
+        label.barTotalPercentage = {};
       });
     },
     afterDatasetsDraw: function (chart) {
-      if (!SUPPORTED_TYPES.has(chart.config.type)) {
+      if (!SUPPORTED_TYPES[chart.config.type]) {
         return;
       }
       chart._labels.forEach(function (label) {

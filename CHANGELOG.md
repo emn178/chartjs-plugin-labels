@@ -1,5 +1,12 @@
 # Change Log
 
+## v1.1.0 / 2018-09-24
+### Added
+- bar suuport. #71
+
+### Fixed
+- support IE11 #74
+
 ## v1.0.1 / 2018-08-27
 ### Fixed
 - tries to render labels on line-chart #70

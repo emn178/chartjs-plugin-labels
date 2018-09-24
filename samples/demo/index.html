@@ -259,6 +259,49 @@
           </pre>
         </div>
       </div>
+      <div class="row">
+        <h2>Bar Chart</h2>
+        <div class="chart-wrapper">
+          <canvas id="bar-canvas1"></canvas>
+        </div>
+        <div class="code">
+          <pre class="brush: js">
+            {
+              labels: {
+                render: 'value'
+              }
+            }
+          </pre>
+        </div>
+      </div>
+      <div class="row">
+        <div class="chart-wrapper">
+          <canvas id="bar-canvas2"></canvas>
+        </div>
+        <div class="code">
+          <pre class="brush: js">
+            {
+              labels: {
+                render: 'percentage'
+              }
+            }
+          </pre>
+        </div>
+      </div>
+      <div class="row">
+        <div class="chart-wrapper">
+          <canvas id="bar-canvas3"></canvas>
+        </div>
+        <div class="code">
+          <pre class="brush: js">
+            {
+              labels: {
+                render: 'value'
+              }
+            }
+          </pre>
+        </div>
+      </div>
     </div>
   </div>
   <div id="footer">
@@ -449,6 +492,113 @@
             precision: 2
           }
         ]
+      }
+    });
+
+    new Chart(document.getElementById('bar-canvas1'), {
+      type: 'bar',
+      data: {
+        labels: ['January', 'February', 'March'],
+        datasets: [
+          {
+            label: 'My First dataset',
+            data: [50445, 33655, 15900],
+            backgroundColor: [
+              '#FF6384',
+              '#36A2EB',
+              '#FFCE56'
+            ]
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          labels: {
+            render: 'value'
+          }
+        }
+      }
+    });
+
+    new Chart(document.getElementById('bar-canvas2'), {
+      type: 'bar',
+      data: {
+        labels: ['January', 'February', 'March'],
+        datasets: [
+          {
+            label: 'My First dataset',
+            data: [50445, 33655, 15900],
+            backgroundColor: [
+              '#FF6384',
+              '#FF6384',
+              '#FF6384'
+            ]
+          },
+          {
+            label: 'My Second dataset',
+            data: [40445, 23655, 35900],
+            backgroundColor: [
+              '#36A2EB',
+              '#36A2EB',
+              '#36A2EB'
+            ]
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          labels: {
+            render: 'percentage'
+          }
+        }
+      }
+    });
+
+    new Chart(document.getElementById('bar-canvas3'), {
+      type: 'bar',
+      data: {
+        labels: ['January', 'February', 'March'],
+        datasets: [
+          {
+            label: 'My First dataset',
+            data: [50445, 33655, 15900],
+            backgroundColor: [
+              '#FF6384',
+              '#FF6384',
+              '#FF6384'
+            ]
+          },
+          {
+            label: 'My Second dataset',
+            data: [40445, 23655, 35900],
+            backgroundColor: [
+              '#36A2EB',
+              '#36A2EB',
+              '#36A2EB'
+            ]
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          labels: {
+            render: 'value'
+          }
+        },
+        scales: {
+          xAxes: [{
+            stacked: true,
+          }],
+          yAxes: [{
+            stacked: true
+          }]
+        }
       }
     });
   </script>
