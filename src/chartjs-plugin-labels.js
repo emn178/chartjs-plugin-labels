@@ -70,7 +70,7 @@
       this.options.arc = false;
       this.options.overlap = true;
     }
-    if (chart.config.type === 'chartbar') {
+    if (chart.config.type === 'horizontalBar') {
       this.options.position = 'default';
       this.options.arc = false;
       this.options.overlap = true;
@@ -137,7 +137,11 @@
       var lines = label.split('\n');
       for (var i = 0; i < lines.length; i++) {
         var y = position.y - this.options.fontSize / 2 * lines.length + this.options.fontSize * i;
-        ctx.fillText(lines[i], position.x, y);
+        if(this.chart.config.type === 'horizontalBar') {
+            ctx.fillText(lines[i], position.x - ctx.measureText(lines[i]).width, y);
+        } else {
+            ctx.fillText(lines[i], position.x, y);
+        }
       }
       ctx.restore();
     }
