@@ -1,5 +1,5 @@
 # chartjs-plugin-labels
-Chart.js plugin to display labels on pie, doughnut and polar area chart. Original Chart.PieceLabel.js
+Chart.js plugin to display labels on pie, doughnut, polar area chart, bar and horizontal bar. Original Chart.PieceLabel.js
 
 ## Demo
 [Demo](http://emn178.github.io/chartjs-plugin-labels/samples/demo/)
