@@ -73,7 +73,7 @@ new Chart(ctx, {
         arc: true,
 
         // position to draw label, available value is 'default', 'border' and 'outside'
-        // bar chart ignores this
+        // bar chart (horizontal also) ignores this
         // default is 'default'
         position: 'default',
 
@@ -97,7 +97,7 @@ new Chart(ctx, {
         // default is 2
         outsidePadding: 4,
 
-        // add margin of text when position is `outside` or `border`
+        // add margin of text when position is `outside` or `border` or is `horizontalBar`
         // default is 2
         textMargin: 4
       }
