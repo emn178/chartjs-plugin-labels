@@ -73,7 +73,8 @@ new Chart(ctx, {
         arc: true,
 
         // position to draw label, available value is 'default', 'border' and 'outside'
-        // bar chart (horizontal also) ignores this
+        // bar chart
+        // horizontalBar accept 'defoult' or 'outside'
         // default is 'default'
         position: 'default',
 

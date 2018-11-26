@@ -66,9 +66,10 @@
       overlap: true
     }, options);
     if (chart.config.type === 'bar' || chart.config.type === 'horizontalBar') {
-      this.options.position = 'default';
       this.options.arc = false;
       this.options.overlap = true;
+    } else if (chart.config.type === 'bar') {
+      this.option.position = 'default';
     }
   };
 
@@ -133,7 +134,11 @@
       for (var i = 0; i < lines.length; i++) {
         var y = position.y - this.options.fontSize / 2 * lines.length + this.options.fontSize * i;
         if(this.chart.config.type === 'horizontalBar') {
-          ctx.fillText(lines[i], position.x - (ctx.measureText(lines[i]).width / 2) - this.options.textMargin, y);
+          if (this.chart.config.position === 'outside') {
+            ctx.fillText(lines[i], position.x + (ctx.measureText(lines[i]).width / 2) + this.options.textMargin, y);
+          } else {
+            ctx.fillText(lines[i], position.x - (ctx.measureText(lines[i]).width / 2) - this.options.textMargin, y);
+          }
         } else {
           ctx.fillText(lines[i], position.x, y);
         }
