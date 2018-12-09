@@ -8,6 +8,11 @@ Chart.js plugin to display labels on pie, doughnut and polar area chart. Origina
 [Compress](https://raw.github.com/emn178/chartjs-plugin-labels/master/build/chartjs-plugin-labels.min.js)  
 [Uncompress](https://raw.github.com/emn178/chartjs-plugin-labels/master/src/chartjs-plugin-labels.js)
 
+## CDN Link
+You can put the below link in the script tag
+
+    https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js
+
 ## Installation
 You can also install chartjs-plugin-labels by using Bower.
 
