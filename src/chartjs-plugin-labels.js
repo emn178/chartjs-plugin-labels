@@ -197,7 +197,9 @@
         value: dataset.data[index],
         percentage: this.getPercentage(dataset, element, index),
         dataset: dataset,
-        index: index
+        index: index,
+        datasetIndex: element._datasetIndex,
+		    chart: this.chart
       });
     } else {
       switch (this.options.render) {
@@ -233,7 +235,9 @@
         percentage: this.getPercentage(dataset, element, index),
         backgroundColor: dataset.backgroundColor[index],
         dataset: dataset,
-        index: index
+        index: index,
+        datasetIndex: element._datasetIndex,
+		    chart: this.chart
       });
     } else if (typeof fontColor !== 'string') {
       fontColor = fontColor[index] || this.chart.config.options.defaultFontColor;
