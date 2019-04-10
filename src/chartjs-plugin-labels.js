@@ -357,7 +357,7 @@
         right = renderInfo.x + mertrics.width / 2,
         top = renderInfo.y - mertrics.height / 2,
         bottom = renderInfo.y + mertrics.height / 2;
-      if (this.options.renderInfo === 'outside') {
+      if (this.options.position === 'outside') {
         return this.outsideInRange(left, right, top, bottom);
       } else {
         return element.inRange(left, top) && element.inRange(left, bottom) &&
