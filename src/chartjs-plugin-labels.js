@@ -265,7 +265,11 @@
     } else {
       percentage = element._view.circumference / this.chart.config.options.circumference * 100;
     }
-    percentage = parseFloat(percentage.toFixed(this.options.precision));
+    percentage = parseFloat(Math.round(percentage * Math.pow(10, this.options.precision)) / Math.pow(10, this.options.precision));
+
+
+
+
     if (!this.options.showActualPercentages) {
       if (this.chart.config.type === 'bar') {
         this.totalPercentage = this.barTotalPercentage[index] || 0;
@@ -273,7 +277,7 @@
       this.totalPercentage += percentage;
       if (this.totalPercentage > 100) {
         percentage -= this.totalPercentage - 100;
-        percentage = parseFloat(percentage.toFixed(this.options.precision));
+        percentage = parseFloat(Math.round(percentage * Math.pow(10, this.options.precision)) / Math.pow(10, this.options.precision));
       }
       if (this.chart.config.type === 'bar') {
         this.barTotalPercentage[index] = this.totalPercentage
