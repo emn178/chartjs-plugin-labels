@@ -267,9 +267,6 @@
     }
     percentage = parseFloat(Math.round(percentage * Math.pow(10, this.options.precision)) / Math.pow(10, this.options.precision));
 
-
-
-
     if (!this.options.showActualPercentages) {
       if (this.chart.config.type === 'bar') {
         this.totalPercentage = this.barTotalPercentage[index] || 0;
