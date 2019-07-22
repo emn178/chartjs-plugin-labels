@@ -5,7 +5,7 @@ Chart.js plugin to display labels on pie, doughnut and polar area chart. Origina
 [Demo](http://emn178.github.io/chartjs-plugin-labels/samples/demo/)
 
 ## Download
-[Compress](https://raw.github.com/emn178/chartjs-plugin-labels/master/build/chartjs-plugin-labels.min.js)  
+[Compress](https://raw.github.com/emn178/chartjs-plugin-labels/master/build/chartjs-plugin-labels.min.js)
 [Uncompress](https://raw.github.com/emn178/chartjs-plugin-labels/master/src/chartjs-plugin-labels.js)
 
 ## CDN Link
@@ -24,8 +24,8 @@ Or node.js, you can use this command to install:
     npm install chartjs-plugin-labels
 
 ## Notice
-v1.0.0 has breaking changes. Please see [CHANGELOG v1.0.0](https://github.com/emn178/chartjs-plugin-labels/blob/master/CHANGELOG.md#v170--2018-08-19)  
-v0.7.0 has deprecated options. Please see [CHANGELOG v0.7.0](https://github.com/emn178/chartjs-plugin-labels/blob/master/CHANGELOG.md#v070--2017-08-03)  
+v1.0.0 has breaking changes. Please see [CHANGELOG v1.0.0](https://github.com/emn178/chartjs-plugin-labels/blob/master/CHANGELOG.md#v170--2018-08-19)
+v0.7.0 has deprecated options. Please see [CHANGELOG v0.7.0](https://github.com/emn178/chartjs-plugin-labels/blob/master/CHANGELOG.md#v070--2017-08-03)
 v0.4.0 has breaking changes. Please see [CHANGELOG v0.4.0](https://github.com/emn178/chartjs-plugin-labels/blob/master/CHANGELOG.md#v040--2017-05-26)
 
 ## Usage
@@ -46,7 +46,7 @@ new Chart(ctx, {
         // identifies whether or not labels of value 0 are displayed, default is false
         showZero: true,
 
-        // font size, default is defaultFontSize
+        // font size, can be size array for each data or function for dynamic size, default is defaultFontSize
         fontSize: 12,
 
         // font color, can be color array for each data or function for dynamic color, default is defaultFontColor
@@ -165,5 +165,5 @@ import 'chartjs-plugin-labels';
 The project is released under the [MIT license](http://www.opensource.org/licenses/MIT).
 
 ## Contact
-The project's website is located at https://github.com/emn178/chartjs-plugin-labels  
+The project's website is located at https://github.com/emn178/chartjs-plugin-labels
 Author: Chen, Yi-Cyuan (emn178@gmail.com)
