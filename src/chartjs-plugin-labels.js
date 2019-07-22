@@ -97,9 +97,9 @@
     }
     var ctx = this.ctx;
     ctx.save();
-    ctx.font = Chart.helpers.fontString(this.options.fontSize, this.options.fontStyle, this.options.fontFamily);
-    var renderInfo = this.getRenderInfo(element, label);
-    if (!this.drawable(element, label, renderInfo)) {
+    ctx.font = Chart.helpers.fontString(this.getFontSize(index), this.options.fontStyle, this.options.fontFamily);
+    var renderInfo = this.getRenderInfo(element, label, index);
+    if (!this.drawable(element, label, renderInfo, index)) {
       ctx.restore();
       return;
     }
@@ -109,11 +109,11 @@
     ctx.restore();
   };
 
-  Label.prototype.renderLabel = function (label, renderInfo) {
-    return this.options.arc ? this.renderArcLabel(label, renderInfo) : this.renderBaseLabel(label, renderInfo);
+  Label.prototype.renderLabel = function (label, renderInfo, index) {
+    return this.options.arc ? this.renderArcLabel(label, renderInfo, index) : this.renderBaseLabel(label, renderInfo, index);
   };
 
-  Label.prototype.renderBaseLabel = function (label, position) {
+  Label.prototype.renderBaseLabel = function (label, position, index) {
     var ctx = this.ctx;
     if (typeof label === 'object') {
       ctx.drawImage(label, position.x - label.width / 2, position.y - label.height / 2, label.width, label.height);
@@ -131,14 +131,14 @@
 
       var lines = label.split('\n');
       for (var i = 0; i < lines.length; i++) {
-        var y = position.y - this.options.fontSize / 2 * lines.length + this.options.fontSize * i;
+        var y = position.y - this.getFontSize(index) / 2 * lines.length + this.getFontSize(index) * i;
         ctx.fillText(lines[i], position.x, y);
       }
       ctx.restore();
     }
   };
 
-  Label.prototype.renderArcLabel = function (label, renderInfo) {
+  Label.prototype.renderArcLabel = function (label, renderInfo, index) {
     var ctx = this.ctx, radius = renderInfo.radius, view = renderInfo.view;
     ctx.save();
     ctx.translate(view.x, view.y);
@@ -148,7 +148,7 @@
       ctx.textAlign = 'left';
       var lines = label.split('\n'), max = 0, widths = [], offset = 0;
       if (this.options.position === 'border') {
-        offset = (lines.length - 1) * this.options.fontSize / 2;
+        offset = (lines.length - 1) * this.getFontSize(index) / 2;
       }
       for (var j = 0; j < lines.length; ++j) {
         var mertrics = ctx.measureText(lines[j]);
@@ -159,7 +159,7 @@
       }
       for (var j = 0; j < lines.length; ++j) {
         var line = lines[j];
-        var y = (lines.length - 1 - j) * -this.options.fontSize + offset;
+        var y = (lines.length - 1 - j) * -this.getFontSize(index) + offset;
         ctx.save();
         var padding = (max - widths[j]) / 2;
         ctx.rotate(padding / radius);
@@ -177,7 +177,7 @@
     } else {
       ctx.rotate((view.startAngle + Math.PI / 2 + renderInfo.endAngle) / 2);
       ctx.translate(0, -1 * radius);
-      this.renderLabel(label, { x: 0, y: 0 });
+      this.renderLabel(label, { x: 0, y: 0 }, index);
     }
     ctx.restore();
   };
@@ -241,6 +241,18 @@
     return fontColor;
   };
 
+  Label.prototype.getFontSize = function (index) {
+    var fontSize = this.options.fontSize;
+    if (typeof fontSize === 'function') {
+      fontSize = fontSize({
+        chart: this.chart
+      });
+    } else if (typeof fontSize !== 'number') {
+      fontSize = fontSize[index] || this.chart.config.options.defaultFontSize;
+    }
+    return fontSize;
+  };
+
   Label.prototype.getPercentage = function (dataset, element, index) {
     if (this.percentage !== null) {
       return this.percentage;
@@ -283,15 +295,15 @@
     return percentage;
   };
 
-  Label.prototype.getRenderInfo = function (element, label) {
+  Label.prototype.getRenderInfo = function (element, label, index) {
     if (this.chart.config.type === 'bar') {
-      return this.getBarRenderInfo(element, label);
+      return this.getBarRenderInfo(element, label, index);
     } else {
-      return this.options.arc ? this.getArcRenderInfo(element, label) : this.getBaseRenderInfo(element, label);
+      return this.options.arc ? this.getArcRenderInfo(element, label, index) : this.getBaseRenderInfo(element, label, index);
     }
   };
 
-  Label.prototype.getBaseRenderInfo = function (element, label) {
+  Label.prototype.getBaseRenderInfo = function (element, label, index) {
     if (this.options.position === 'outside' || this.options.position === 'border') {
       var renderInfo, rangeFromCentre,
         view = element._view,
@@ -307,7 +319,7 @@
         y: view.y + (Math.sin(centreAngle) * rangeFromCentre)
       };
       if (this.options.position === 'outside') {
-        var offset = this.options.textMargin + this.measureLabel(label).width / 2;
+        var offset = this.options.textMargin + this.measureLabel(label, index).width / 2;
         renderInfo.x += renderInfo.x < view.x ? -offset : offset;
       }
       return renderInfo;
@@ -316,10 +328,10 @@
     }
   };
 
-  Label.prototype.getArcRenderInfo = function (element, label) {
+  Label.prototype.getArcRenderInfo = function (element, label, index) {
     var radius, view = element._view;
     if (this.options.position === 'outside') {
-      radius = view.outerRadius + this.options.fontSize + this.options.textMargin;
+      radius = view.outerRadius + this.getFontSize(index) + this.options.textMargin;
     } else if (this.options.position === 'border') {
       radius = (view.outerRadius / 2 + view.outerRadius) / 2;
     } else {
@@ -329,7 +341,7 @@
     var totalAngle = endAngle - startAngle;
     startAngle += Math.PI / 2;
     endAngle += Math.PI / 2;
-    var mertrics = this.measureLabel(label);
+    var mertrics = this.measureLabel(label, index);
     startAngle += (endAngle - (mertrics.width / radius + startAngle)) / 2;
     return {
       radius: radius,
@@ -340,19 +352,19 @@
     }
   };
 
-  Label.prototype.getBarRenderInfo = function (element, label) {
+  Label.prototype.getBarRenderInfo = function (element, label, index) {
     var renderInfo = element.tooltipPosition();
-    renderInfo.y -= this.measureLabel(label).height / 2 + this.options.textMargin;
+    renderInfo.y -= this.measureLabel(label, index).height / 2 + this.options.textMargin;
     return renderInfo;
   };
 
-  Label.prototype.drawable = function (element, label, renderInfo) {
+  Label.prototype.drawable = function (element, label, renderInfo, index) {
     if (this.options.overlap) {
       return true;
     } else if (this.options.arc) {
       return renderInfo.endAngle - renderInfo.startAngle <= renderInfo.totalAngle;
     } else {
-      var mertrics = this.measureLabel(label),
+      var mertrics = this.measureLabel(label, index),
         left = renderInfo.x - mertrics.width / 2,
         right = renderInfo.x + mertrics.width / 2,
         top = renderInfo.y - mertrics.height / 2,
@@ -406,7 +418,7 @@
     return true;
   };
 
-  Label.prototype.measureLabel = function (label) {
+  Label.prototype.measureLabel = function (label, index) {
     if (typeof label === 'object') {
       return { width: label.width, height: label.height };
     } else {
@@ -418,7 +430,7 @@
           width = result.width;
         }
       }
-      return { width: width, height: this.options.fontSize * lines.length };
+      return { width: width, height: this.getFontSize(index) * lines.length };
     }
   };
 
@@ -451,7 +463,7 @@
         label.setup(chart, options[i]);
         if (label.options.position === 'outside') {
           someOutside = true;
-          var padding = label.options.fontSize * 1.5 + label.options.outsidePadding;
+          var padding = this.getFontSize(i) * 1.5 + label.options.outsidePadding;
           if (padding > maxPadding) {
             maxPadding = padding;
           }
