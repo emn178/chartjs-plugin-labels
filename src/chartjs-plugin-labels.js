@@ -81,9 +81,10 @@
     this.totalPercentage = 0;
     this.total = null;
     var arg = this.args[index];
-    arg.meta.data.forEach(function (element, index) {
-      this.renderToElement(dataset, arg, element, index);
-    }.bind(this));
+    if(arg)
+      arg.meta.data.forEach(function (element, index) {
+        this.renderToElement(dataset, arg, element, index);
+      }.bind(this));
   };
 
   Label.prototype.renderToElement = function (dataset, arg, element, index) {
