@@ -52,10 +52,10 @@
     this.options = Object.assign({
       position: 'default',
       precision: 0,
-      fontSize: chartOptions.defaultFontSize,
-      fontColor: chartOptions.defaultFontColor,
-      fontStyle: chartOptions.defaultFontStyle,
-      fontFamily: chartOptions.defaultFontFamily,
+      fontSize: chartOptions.fontSize,
+      fontColor: chartOptions.fontColor,
+      fontStyle: chartOptions.fontStyle,
+      fontFamily: chartOptions.fontFamily,
       shadowOffsetX: 3,
       shadowOffsetY: 3,
       shadowColor: 'rgba(0,0,0,0.3)',
@@ -185,7 +185,7 @@
   Label.prototype.shouldRenderToElement = function (meta, element) {
     return !meta.hidden && !element.hidden && (
       this.options.showZero ||
-      this.chart.config.type === 'polarArea' ? element._view.outerRadius !== 0 : element._view.circumference !== 0
+      this.chart.config.type === 'polarArea' ? element.outerRadius !== 0 : element.circumference !== 0
     );
   };
 
@@ -236,7 +236,7 @@
         index: index
       });
     } else if (typeof fontColor !== 'string') {
-      fontColor = fontColor[index] || this.chart.config.options.defaultFontColor;
+      fontColor = fontColor[index] || this.chart.config.options.fontColor;
     }
     return fontColor;
   };
@@ -263,7 +263,7 @@
       }
       percentage = dataset.data[index] / this.barTotal[index] * 100;
     } else {
-      percentage = element._view.circumference / this.chart.config.options.circumference * 100;
+      percentage = element.circumference / this.chart.config.options.circumference * 100;
     }
     percentage = parseFloat(percentage.toFixed(this.options.precision));
     if (!this.options.showActualPercentages) {
@@ -294,7 +294,7 @@
   Label.prototype.getBaseRenderInfo = function (element, label) {
     if (this.options.position === 'outside' || this.options.position === 'border') {
       var renderInfo, rangeFromCentre,
-        view = element._view,
+        view = element,
         centreAngle = view.startAngle + (view.endAngle - view.startAngle) / 2,
         innerRadius = view.outerRadius / 2;
       if (this.options.position === 'border') {
@@ -317,7 +317,7 @@
   };
 
   Label.prototype.getArcRenderInfo = function (element, label) {
-    var radius, view = element._view;
+    var radius, view = element;
     if (this.options.position === 'outside') {
       radius = view.outerRadius + this.options.fontSize + this.options.textMargin;
     } else if (this.options.position === 'border') {
