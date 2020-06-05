@@ -201,6 +201,9 @@
       });
     } else {
       switch (this.options.render) {
+        case 'none':
+          label = '';
+          break;
         case 'value':
           label = dataset.data[index];
           break;
