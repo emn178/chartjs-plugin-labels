@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * [chartjs-plugin-labels]{@link https://github.com/emn178/chartjs-plugin-labels}
  *
@@ -35,9 +36,11 @@
   }
 
   var SUPPORTED_TYPES = {};
-  ['pie', 'doughnut', 'polarArea', 'bar'].forEach(function (t) {
+  ['pie', 'doughnut', 'polarArea', 'bar', 'horizontalBar'].forEach(function (t) {
     SUPPORTED_TYPES[t] = true;
   });
+
+  var spacedItems = 1;
 
   function Label() {
     this.renderToDataset = this.renderToDataset.bind(this);
@@ -65,7 +68,7 @@
       textMargin: 2,
       overlap: true
     }, options);
-    if (chart.config.type === 'bar') {
+    if (chart.config.type === 'bar' || chart.config.type === 'horizontalBar') {
       this.options.position = 'default';
       this.options.arc = false;
       this.options.overlap = true;
@@ -105,15 +108,17 @@
     }
     ctx.beginPath();
     ctx.fillStyle = this.getFontColor(dataset, element, index);
-    this.renderLabel(label, renderInfo);
+
+    const percentage = this.getPercentage(dataset, element, index)
+    this.renderLabel(label, renderInfo, percentage, index);
     ctx.restore();
   };
 
-  Label.prototype.renderLabel = function (label, renderInfo) {
-    return this.options.arc ? this.renderArcLabel(label, renderInfo) : this.renderBaseLabel(label, renderInfo);
+  Label.prototype.renderLabel = function (label, renderInfo, percentage, index) {
+    return this.options.arc ? this.renderArcLabel(label, renderInfo) : this.renderBaseLabel(label, renderInfo, percentage, index);
   };
 
-  Label.prototype.renderBaseLabel = function (label, position) {
+  Label.prototype.renderBaseLabel = function (label, position, percentage, index) {
     var ctx = this.ctx;
     if (typeof label === 'object') {
       ctx.drawImage(label, position.x - label.width / 2, position.y - label.height / 2, label.width, label.height);
@@ -132,7 +137,26 @@
       var lines = label.split('\n');
       for (var i = 0; i < lines.length; i++) {
         var y = position.y - this.options.fontSize / 2 * lines.length + this.options.fontSize * i;
-        ctx.fillText(lines[i], position.x, y);
+        if(this.chart.config.type === 'horizontalBar') {
+          var specPos = (position.x + (ctx.measureText(lines[i]).width / 2))  + this.options.textMargin;
+          if (localStorage.getItem('vm-base') && parseInt(localStorage.getItem('vm-base'), 10) + (ctx.measureText(lines[i]).width / 2) + this.options.textMargin > specPos) {
+            specPos = parseInt(localStorage.getItem('vm-base'), 10) + (ctx.measureText(lines[i]).width / 2) + this.options.textMargin;
+          }
+          ctx.fillText(lines[i], specPos, y);
+        } else if (this.chart.config.type === 'bar' && this.options.stacked){
+          if (lines[i] > 0) {
+            ctx.fillText(lines[i], position.x, (y + this.options.fontSize + 4));
+          } else {
+            ctx.fillText(Math.abs(lines[i]), position.x, y);
+          }
+        } else {
+          let newY = y
+
+          if(percentage < 5) {
+            newY = y - 400
+          }
+          ctx.fillText(lines[i], position.x, newY);
+        }
       }
       ctx.restore();
     }
