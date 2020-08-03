@@ -276,7 +276,7 @@
         percentage = parseFloat(percentage.toFixed(this.options.precision));
       }
       if (this.chart.config.type === 'bar') {
-        this.barTotalPercentage[index] = this.totalPercentage
+        this.barTotalPercentage[index] = this.totalPercentage;
       }
     }
     this.percentage = percentage;
@@ -337,7 +337,7 @@
       endAngle: endAngle,
       totalAngle: totalAngle,
       view: view
-    }
+    };
   };
 
   Label.prototype.getBarRenderInfo = function (element, label) {
