@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * [chartjs-plugin-labels]{@link https://github.com/emn178/chartjs-plugin-labels}
  *
@@ -109,7 +108,7 @@
     ctx.beginPath();
     ctx.fillStyle = this.getFontColor(dataset, element, index);
 
-    const percentage = this.getPercentage(dataset, element, index)
+    const percentage = this.getPercentage(dataset, element, index);
     this.renderLabel(label, renderInfo, percentage, index);
     ctx.restore();
   };
@@ -150,10 +149,10 @@
             ctx.fillText(Math.abs(lines[i]), position.x, y);
           }
         } else {
-          let newY = y
+          var newY = y;
 
           if(percentage < 5) {
-            newY = y - 400
+            newY = y - 400;
           }
           ctx.fillText(lines[i], position.x, newY);
         }
@@ -300,7 +299,7 @@
         percentage = parseFloat(percentage.toFixed(this.options.precision));
       }
       if (this.chart.config.type === 'bar') {
-        this.barTotalPercentage[index] = this.totalPercentage
+        this.barTotalPercentage[index] = this.totalPercentage;
       }
     }
     this.percentage = percentage;
@@ -361,7 +360,7 @@
       endAngle: endAngle,
       totalAngle: totalAngle,
       view: view
-    }
+    };
   };
 
   Label.prototype.getBarRenderInfo = function (element, label) {
