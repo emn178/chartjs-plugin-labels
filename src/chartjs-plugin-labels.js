@@ -163,14 +163,31 @@
         ctx.save();
         var padding = (max - widths[j]) / 2;
         ctx.rotate(padding / radius);
-        for (var i = 0; i < line.length; i++) {
-          var char = line.charAt(i);
-          mertrics = ctx.measureText(char);
-          ctx.save();
-          ctx.translate(0, -1 * radius);
-          ctx.fillText(char, 0, y);
-          ctx.restore();
-          ctx.rotate(mertrics.width / radius);
+        var centerAngle = renderInfo.startAngle + ((renderInfo.endAngle - renderInfo.startAngle) / 2)
+        if (centerAngle > Math.PI/2 && centerAngle < Math.PI + (Math.PI/2)) {
+          for (var i = line.length - 1; 0 <= i; i--) {
+            var char = line.charAt(i);
+            mertrics = ctx.measureText(char);
+            ctx.save();
+            ctx.translate(0, -1 * radius);
+            ctx.save();
+            ctx.translate(mertrics.width, 0);
+            ctx.rotate(Math.PI);
+            ctx.fillText(char, 0, y);
+            ctx.restore();
+            ctx.restore();
+            ctx.rotate(mertrics.width / radius);
+          }
+        } else {
+          for (var i = 0; i < line.length; i++) {
+            var char = line.charAt(i);
+            mertrics = ctx.measureText(char);
+            ctx.save();
+            ctx.translate(0, -1 * radius);
+            ctx.fillText(char, 0, y);
+            ctx.restore();
+            ctx.rotate(mertrics.width / radius);
+          }
         }
         ctx.restore();
       }
