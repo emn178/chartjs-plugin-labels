@@ -35,7 +35,7 @@
   }
 
   var SUPPORTED_TYPES = {};
-  ['pie', 'doughnut', 'polarArea', 'bar'].forEach(function (t) {
+  ['pie', 'doughnut', 'polarArea', 'bar', 'horizontalBar'].forEach(function (t) {
     SUPPORTED_TYPES[t] = true;
   });
 
@@ -65,7 +65,7 @@
       textMargin: 2,
       overlap: true
     }, options);
-    if (chart.config.type === 'bar') {
+    if (chart.config.type === 'horizontalBar' || chart.config.type === 'bar' ) {
       this.options.position = 'default';
       this.options.arc = false;
       this.options.overlap = true;
@@ -254,7 +254,7 @@
         }
       }
       percentage = dataset.data[index] / this.total * 100;
-    } else if (this.chart.config.type === 'bar') {
+    } else if (this.chart.config.type === 'horizontalBar' || this.chart.config.type === 'bar') {
       if (this.barTotal[index] === undefined) {
         this.barTotal[index] = 0;
         for (var i = 0;i < this.chart.data.datasets.length; ++i) {
@@ -267,7 +267,7 @@
     }
     percentage = parseFloat(percentage.toFixed(this.options.precision));
     if (!this.options.showActualPercentages) {
-      if (this.chart.config.type === 'bar') {
+      if (this.chart.config.type === 'horizontalBar' || this.chart.config.type === 'bar') {
         this.totalPercentage = this.barTotalPercentage[index] || 0;
       }
       this.totalPercentage += percentage;
@@ -275,7 +275,7 @@
         percentage -= this.totalPercentage - 100;
         percentage = parseFloat(percentage.toFixed(this.options.precision));
       }
-      if (this.chart.config.type === 'bar') {
+      if (this.chart.config.type === 'horizontalBar' || this.chart.config.type === 'bar') {
         this.barTotalPercentage[index] = this.totalPercentage
       }
     }
@@ -284,7 +284,7 @@
   };
 
   Label.prototype.getRenderInfo = function (element, label) {
-    if (this.chart.config.type === 'bar') {
+    if (this.chart.config.type === 'horizontalBar' || this.chart.config.type === 'bar') {
       return this.getBarRenderInfo(element, label);
     } else {
       return this.options.arc ? this.getArcRenderInfo(element, label) : this.getBaseRenderInfo(element, label);
@@ -478,13 +478,44 @@
         label.barTotalPercentage = {};
       });
     },
-    afterDatasetsDraw: function (chart) {
-      if (!SUPPORTED_TYPES[chart.config.type]) {
-        return;
-      }
-      chart._labels.forEach(function (label) {
-        label.render();
-      });
-    }
+	afterDatasetsDraw: function(chart, easing) {
+		// To only draw at the end of animation, check for easing === 1
+		var ctx = chart.ctx;
+		chart.data.datasets.forEach(function (dataset, i) {
+			var meta = chart.getDatasetMeta(i);
+			if (!meta.hidden) {
+
+
+				if (chart.config.type === 'horizontalBar') {
+					meta.data.forEach(function(element, index) {
+						// Draw the text in black, with the specified font
+						ctx.fillStyle = 'black';
+						var fontSize = 12;
+						var fontStyle = 'normal';
+						var fontFamily = 'Helvetica Neue';
+						ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+
+						// Just naively convert to string for now
+						var dataString = dataset.data[index].toString();
+
+						// Make sure alignment settings are correct
+						ctx.textAlign = 'right';
+						ctx.textBaseline = 'middle';
+
+						var padding = -6;
+						var position = element.tooltipPosition();
+						ctx.fillText(dataString, position.x - (fontSize / 2) + padding, position.y);
+					});
+				} else {
+					if (!SUPPORTED_TYPES[chart.config.type]) {
+						return;
+					}
+					chart._labels.forEach(function (label) {
+						label.render();
+					});
+				}
+			}
+		});
+	}
   });
 })();
